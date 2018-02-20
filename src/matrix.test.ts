@@ -5,11 +5,19 @@ describe("trivial matrix", () => {
     const columns = 1;
     const possibleValues = new Set([0]);
 
-    describe("should start", () => {
+    describe("should start...", () => {
         const m = distinctMatrix(rows, columns, possibleValues);
 
         test("with all values undefined", () => {
             expect(m.valueAt(1, 1)).toBeUndefined();
+        });
+
+        test("not full", () => {
+            expect(m.isFull()).toBeFalsy();
+        });
+
+        test("just a dash for toString", () => {
+            expect(m.toString()).toBe("-");
         });
 
         test("with all values fully available", () => {
@@ -18,11 +26,28 @@ describe("trivial matrix", () => {
         });
     });
 
-    test("setting the value should work, and reduce the possibilities to none", () => {
+    describe("setting the value...", () => {
         const m = distinctMatrix(rows, columns, possibleValues);
+
         m.set(1, 1, 0);
-        expect(m.valueAt(1, 1)).toBe(0);
-        expect(m.availableAt(1, 1).size).toBe(0);
+
+        test("should change the value", () => {
+            expect(m.valueAt(1, 1)).toBe(0);
+        });
+
+        test("should be full", () => {
+            expect(m.isFull()).toBeTruthy();
+        });
+
+        // this seems trivial, but caught a bug, in that "0" is falsey
+        //  just like "undefined", so this was coming back "-"
+        test("just a number for toString", () => {
+            expect(m.toString()).toBe("0");
+        });
+
+        test("remove the possibilities", () => {
+            expect(m.availableAt(1, 1).size).toBe(0);
+        });
     });
 });
 
@@ -32,11 +57,19 @@ describe("small matrix", () => {
     const columns = 2;
     const possibleValues = new Set([1, 2, 3]);
 
-    describe("should start", () => {
+    describe("should start...", () => {
         const m = distinctMatrix(rows, columns, possibleValues);
 
         test("with all values undefined", () => {
             expectAcrossMatrix(rows, columns, m, (m, r, c) => expect(m.valueAt(r, c)).toBeUndefined());
+        });
+
+        test("not full", () => {
+            expect(m.isFull()).toBeFalsy();
+        });
+
+        test("with all dashes for toString", () => {
+            expect(m.toString()).toBe("-- --");
         });
 
         test("with all values fully available", () => {
@@ -45,14 +78,23 @@ describe("small matrix", () => {
 
     });
 
-    describe("setting a single value should", () => {
+    describe("setting a single value should...", () => {
         const m = distinctMatrix(rows, columns, possibleValues);
+
         m.set(1, 1, 2);
 
         const leftovers = new Set([1, 3]);
 
         test("change the value for that cell", () => {
             expect(m.valueAt(1, 1)).toBe(2);
+        });
+
+        test("with proper dashes for toString", () => {
+            expect(m.toString()).toBe("2- --");
+        });
+
+        test("still not full", () => {
+            expect(m.isFull()).toBeFalsy();
         });
 
         test("leave the rest undefined", () => {
@@ -81,7 +123,7 @@ describe("small matrix", () => {
         });
     });
 
-    describe("setting three values should", () => {
+    describe("setting three values should...", () => {
         const m = distinctMatrix(rows, columns, possibleValues);
 
         // 2 3
@@ -89,6 +131,14 @@ describe("small matrix", () => {
         m.set(1, 1, 2);
         m.set(1, 2, 3);
         m.set(2, 1, 1);
+
+        test("with proper dashes for toString", () => {
+            expect(m.toString()).toBe("23 1-");
+        });
+
+        test("still not full", () => {
+            expect(m.isFull()).toBeFalsy();
+        });
 
         test("remove the possibilities for those three cells", () => {
             expect(m.availableAt(1, 1).size).toBe(0);
@@ -100,6 +150,29 @@ describe("small matrix", () => {
             expect(m.valueAt(2, 2)).toBeUndefined();
             expect(m.availableAt(2, 2).size).toBe(1);
             expect(m.availableAt(2, 2)).toEqual(new Set([2]));
+        });
+    });
+
+    describe("setting four values should...", () => {
+        const m = distinctMatrix(rows, columns, possibleValues);
+
+        // 2 3
+        // 1 2
+        m.set(1, 1, 2);
+        m.set(1, 2, 3);
+        m.set(2, 1, 1);
+        m.set(2, 2, 2);
+
+        test("with proper values for toString", () => {
+            expect(m.toString()).toBe("23 12");
+        });
+
+        test("be full", () => {
+            expect(m.isFull()).toBeTruthy();
+        });
+
+        test("remove the possibilities for all cells", () => {
+            expectAcrossMatrix(rows, columns, m, (m, r, c) => expect(m.availableAt(r, c).size).toEqual(0));
         });
     });
 });
