@@ -1,22 +1,32 @@
 
 import PDFDocument = PDFKit.PDFDocument;
+import {DistinctMatrix} from "./matrix";
+import {Tile} from "./tile";
 
 const width = 50;
 const gap = 15;
 
-export function render(doc: PDFDocument , rows: number, columns: number, pattern: string) {
+export function render(doc: PDFDocument, board: DistinctMatrix<Tile>) {
     doc.lineWidth(10)
         .fillOpacity(1.0);
 
-    for (let row = 1; row <= rows; row ++) {
-        const i = (row - 1) * columns;
-        renderRow(doc, row, pattern.substring(i, i + columns));
+    for (let row = 1; row <= board.rows(); row ++) {
+        for (let col = 1; col <= board.columns(); col++) {
+            const tile = board.valueAt(row, col);
+            if (tile != undefined) {
+                tiler(tile)(doc, row, col);
+            }
+        }
     }
 }
 
-function renderRow(doc: PDFDocument , row: number, pattern: string) {
-    for (let col = 0; col < pattern.length; col++) {
-        tilerForCode(pattern.charAt(col))(doc, row, col+1);
+function tiler(tile: Tile): (doc: PDFDocument , r: number, c: number) => void {
+    switch (tile) {
+        case Tile.Black: return blackTileAt;
+        case Tile.Blue: return blueTileAt;
+        case Tile.Red: return redTileAt;
+        case Tile.Turquoise: return turqoiseTileAt;
+        case Tile.Yellow: return yellowTileAt;
     }
 }
 
@@ -45,16 +55,4 @@ function blackTileAt(doc: PDFDocument , row: number, column: number) {
 
 function turqoiseTileAt(doc: PDFDocument , row: number, column: number) {
     tileAt(doc, row, column, "#8ED3F0")
-}
-
-function tilerForCode(code: string): (doc: PDFDocument , r: number, c: number) => void {
-    switch (code) {
-        case "B": return blueTileAt;
-        case "K": return blackTileAt;
-        case "R": return redTileAt;
-        case "T": return turqoiseTileAt;
-        case "Y": return yellowTileAt;
-        default:
-            return (doc: PDFDocument, r: number, c: number) => {}
-    }
 }
