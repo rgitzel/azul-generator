@@ -10,6 +10,8 @@ import {Tile} from "./tile";
 const width = 50;
 const gap = 15;
 const lineWidth = 10;
+const leftMargin = 50;
+const topMargin = 50;
 
 export function renderToPdfFile(board: DistinctMatrix<Tile>, filename: string) {
     const doc = new pdf();
@@ -41,8 +43,10 @@ function tiler(tile: Tile): (doc: PDFDocument , r: number, c: number) => void {
 }
 
 function tileAt(doc: PDFDocument , row: number, column: number, colour: string) {
+    const x = leftMargin + column * gap + (column - 1) * width;
+    const y = topMargin + row * gap + (row - 1) * width;
     doc.lineJoin('round')
-        .rect(column * gap + (column - 1) * width, row * gap + (row - 1) * width, width, width)
+        .rect(x, y, width, width)
         .fillAndStroke(colour, colour)
     ;
 }
