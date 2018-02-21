@@ -1,23 +1,33 @@
 
+import * as fs from "fs";
+import * as pdf from "pdfkit";
+
 import PDFDocument = PDFKit.PDFDocument;
+
 import {DistinctMatrix} from "./matrix";
 import {Tile} from "./tile";
 
 const width = 50;
 const gap = 15;
+const lineWidth = 10;
 
-export function render(doc: PDFDocument, board: DistinctMatrix<Tile>) {
-    doc.lineWidth(10)
+export function renderToPdfFile(board: DistinctMatrix<Tile>, filename: string) {
+    const doc = new pdf();
+
+    doc.pipe(fs.createWriteStream(filename));
+
+    doc.lineWidth(lineWidth)
         .fillOpacity(1.0);
 
-    for (let row = 1; row <= board.rows(); row ++) {
-        for (let col = 1; col <= board.columns(); col++) {
-            const tile = board.valueAt(row, col);
+    board.iterateOver(
+        (row: number, column: number, tile: Tile|undefined) => {
             if (tile != undefined) {
-                tiler(tile)(doc, row, col);
+                tiler(tile)(doc, row, column);
             }
         }
-    }
+    );
+
+    doc.end();
 }
 
 function tiler(tile: Tile): (doc: PDFDocument , r: number, c: number) => void {

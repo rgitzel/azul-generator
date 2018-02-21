@@ -1,16 +1,8 @@
 
-import * as pdf from "pdfkit"
-
-import * as fs from "fs";
-
 import {DistinctMatrix, distinctMatrix, randomlyFill} from "./matrix";
-import {render} from "./renderer";
+import {renderToPdfFile} from "./renderer";
 import {AllTiles, Tile} from "./tile";
 
-
-const doc = new pdf();
-
-doc.pipe(fs.createWriteStream('./file.pdf'));
 
 let tries = 0;
 let madeAFullMatrix = false;
@@ -24,9 +16,8 @@ while (tries < 10 && !madeAFullMatrix) {
 }
 
 if (m) {
-    render(doc, m);
+    renderToPdfFile(m, "./file.pdf");
 }
 
-doc.end();
 
 

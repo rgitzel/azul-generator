@@ -17,6 +17,8 @@ export interface DistinctMatrix<T> {
 
     // TODO: make this immutable by returning copies
     set(row: number, column: number, value: T): void;
+
+    iterateOver( use: (row: number, col: number, value: T|undefined) => void ): void;
 }
 
 export function distinctMatrix<T>(rows: number, columns: number, possibleValues: Set<T>): DistinctMatrix<T> {
@@ -29,8 +31,12 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
 
     let filledEntries = 0;
 
-    function updatedEntryFor<T>(row: number, column: number, newValue: T) {
-        const entry: MatrixEntry<T> = entries[row-1][column-1];
+    function entryAt(row: number, column: number): MatrixEntry<T> {
+        return entries[row-1][column-1];
+    }
+
+    function updatedEntryFor(row: number, column: number, newValue: T) {
+        const entry = entryAt(row, column);
         entry.value = newValue;
         entry.available.clear();
         return entry;
@@ -68,7 +74,7 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
         },
 
         valueAt: (row: number, column: number) => {
-            return entries[row-1][column-1].value;
+            return entryAt(row, column).value;
         },
 
         availableAt: (row: number, column: number) => {
@@ -85,6 +91,14 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
             filledEntries ++;
 
             // TODO: 'set' any values that now have one possibility?
+        },
+
+        iterateOver: ( use: (row: number, col: number, value: T|undefined) => void ) => {
+            for (let row = 1; row <= rows; row++) {
+                for (let col = 1; col <= columns; col++) {
+                    use(row, col, entryAt(row, col).value);
+                }
+            }
         }
     }
 }
@@ -101,6 +115,7 @@ export function randomlyFill<T>(m: DistinctMatrix<T>) {
         }
     }
 }
+
 
 function randomFromSet<T>(set: Set<T>): T {
     const i = Math.floor(Math.random() * Math.floor(set.size));
