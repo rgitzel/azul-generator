@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run-script build && node ./build/index",
+    "start": "npm run-script build && node ./build/cli",
     "test": "jest --coverage",
     "build": "rm -rf build && tsc",
     "webpack": "webpack",

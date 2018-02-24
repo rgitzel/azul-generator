@@ -1,8 +1,6 @@
 
-// import * as fs from "fs";
+// this is a bit odd to import, the '*' one is needed, but I'm not sure how
 import * as pdf from "pdfkit";
-import * as blobStream from "blob-stream";
-
 import PDFDocument = PDFKit.PDFDocument;
 
 import {DistinctMatrix} from "./matrix";
@@ -14,30 +12,8 @@ const lineWidth = 10;
 const leftMargin = 50;
 const topMargin = 50;
 
-
-// export function renderToPdfFile(board: DistinctMatrix<Tile>, filename: string) {
-//     const doc = new pdf();
-//     doc.pipe(fs.createWriteStream(filename));
-//     renderToPdf(board, doc);
-//     doc.end();
-// }
-
-export function renderToPdfInBrowser(board: DistinctMatrix<Tile>, iframe: HTMLIFrameElement) {
-    const doc = new pdf();
-    const stream = doc.pipe(blobStream());
-    renderToPdf(board, doc);
-    doc.end();
-
-    stream.on("finish", () => {
-        iframe.src = stream.toBlobURL('application/pdf');
-    });
-}
-
-function renderToPdf(board: DistinctMatrix<Tile>, doc: PDFDocument) {
-
-    doc.lineWidth(lineWidth)
-        .fillOpacity(1.0);
-
+export function renderToPdf(board: DistinctMatrix<Tile>, doc: PDFDocument) {
+    doc.lineWidth(lineWidth).fillOpacity(1.0);
     board.iterateOver(
         (row: number, column: number, tile: Tile|undefined) => {
             if (tile != undefined) {
