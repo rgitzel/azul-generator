@@ -1,4 +1,38 @@
 
+**February 24, 2018**
+
+I just measured the real board.  From the left edge of left tile
+to right edge of the right tile it's 10.2cm.  Between tiles is 2mm.
+ 
+I wonder how to about scaling.  Postscript lets you apply a scale
+factor, but I've not found anything for PDFs per se.
+
+I could extract the rendering code and make it on a [0,1] range (or
+use ints up to 1000 to make testing viable),
+ then for the PDF just say how many "pixels" to use.
+
+**February 23, 2018**
+
+Pro-D day, why not see if this can be run in a browser?
+
+"Webpack" is one tool we use, so let's give it a go. Do some reading, some tinkering.
+
+Ultimately this was the most helpful:  https://webpack.js.org/guides/getting-started/
+
+Got 'hello world' going easily enough, but some hoog-jiggery was needed to get 'pdfkit'
+to work.  This helped https://github.com/devongovett/pdfkit/issues/659#issuecomment-321452649, and
+needed `transform-loader` to be installed.
+
+All of which is suggesting _two_ repos, one for the generation, and one for the webapp.
+
+Anyway, right now the PDF is rather crudely displayed in an iframe, but it does display
+a different board on every page reload.
+
+Rather oddly... the very first one displayed?  Was the default board.  Sus. Spish. Us.
+
+Anyway, I decided to put this in a separate branch, and did some of the same refactoring in master.
+
+
 **February 20, 2018**
 
 Cobbled together automatic selection on the bus home last night,

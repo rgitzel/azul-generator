@@ -93,10 +93,10 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
             // TODO: 'set' any values that now have one possibility?
         },
 
-        iterateOver: ( use: (row: number, col: number, value: T|undefined) => void ) => {
+        iterateOver: ( fn: (row: number, col: number, value: T|undefined) => void ) => {
             for (let row = 1; row <= rows; row++) {
                 for (let col = 1; col <= columns; col++) {
-                    use(row, col, entryAt(row, col).value);
+                    fn(row, col, entryAt(row, col).value);
                 }
             }
         }

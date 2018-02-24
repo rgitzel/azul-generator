@@ -1,63 +1,40 @@
 
-// this is a bit odd to import, the '*' one is needed, but I'm not sure how
+// this is a bit odd to import, the '*' one is needed for the second one, but I'm not sure how they are connected
 import * as pdf from "pdfkit";
 import PDFDocument = PDFKit.PDFDocument;
 
-import {DistinctMatrix} from "./matrix";
-import {Tile} from "./tile";
+import {AzulColour, AzulTile} from "./game/tile";
+import {AzulBoard} from "./game/board";
+import {offsetBy, Rectangle, scaleBy} from "./rectangle";
 
-const width = 50;
-const gap = 15;
-const lineWidth = 10;
 const leftMargin = 50;
 const topMargin = 50;
 
-export function renderToPdf(board: DistinctMatrix<Tile>, doc: PDFDocument) {
-    doc.lineWidth(lineWidth).fillOpacity(1.0);
-    board.iterateOver(
-        (row: number, column: number, tile: Tile|undefined) => {
-            if (tile != undefined) {
-                tiler(tile)(doc, row, column);
-            }
+const canvasWidth = 400;
+
+const cornerRadius = 5;
+
+export function renderToPdf(board: AzulBoard, doc: PDFDocument) {
+    doc.fillOpacity(1.0);
+    const factor = canvasWidth / board.width;
+    board.iterateOverTiles(
+        (tile: AzulTile) => {
+            const r = offsetBy(topMargin, leftMargin, scaleBy(factor, tile.position));
+            render(doc, r, colourCode(tile.colour));
         }
     );
 }
 
-function tiler(tile: Tile): (doc: PDFDocument , r: number, c: number) => void {
+function colourCode(tile: AzulColour): string {
     switch (tile) {
-        case Tile.Black: return blackTileAt;
-        case Tile.Blue: return blueTileAt;
-        case Tile.Red: return redTileAt;
-        case Tile.Turquoise: return turqoiseTileAt;
-        case Tile.Yellow: return yellowTileAt;
+        case AzulColour.Black: return "#000";
+        case AzulColour.Blue: return "#6EA4DF";
+        case AzulColour.Red: return "#FC585B";
+        case AzulColour.Turquoise: return "#8ED3F0";
+        case AzulColour.Yellow: return "#FBD44B";
     }
 }
 
-function tileAt(doc: PDFDocument , row: number, column: number, colour: string) {
-    const x = leftMargin + column * gap + (column - 1) * width;
-    const y = topMargin + row * gap + (row - 1) * width;
-    doc.lineJoin('round')
-        .rect(x, y, width, width)
-        .fillAndStroke(colour, colour)
-    ;
-}
-
-function blueTileAt(doc: PDFDocument , row: number, column: number) {
-    tileAt(doc, row, column, "#6EA4DF")
-}
-
-function redTileAt(doc: PDFDocument , row: number, column: number) {
-    tileAt(doc, row, column, "#FC585B")
-}
-
-function yellowTileAt(doc: PDFDocument , row: number, column: number) {
-    tileAt(doc, row, column, "#FBD44B")
-}
-
-function blackTileAt(doc: PDFDocument , row: number, column: number) {
-    tileAt(doc, row, column, "#000")
-}
-
-function turqoiseTileAt(doc: PDFDocument , row: number, column: number) {
-    tileAt(doc, row, column, "#8ED3F0")
+function render(doc: PDFDocument, r: Rectangle, colourCode: string) {
+    doc.roundedRect(r.left, r.top, r.width, r.width, cornerRadius).fill(colourCode);
 }
