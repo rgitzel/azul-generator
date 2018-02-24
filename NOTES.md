@@ -11,6 +11,18 @@ I could extract the rendering code and make it on a [0,1] range (or
 use ints up to 1000 to make testing viable),
  then for the PDF just say how many "pixels" to use.
 
+...
+
+Not too hard: the "board" now has absolute coordinates in millimetres,
+ and the PDF rendering code just scales them.
+ 
+The thick rounded lines screwed up the gaps, turns out.  But Pdfkit
+has a rounded rectangle, so turns out lines aren't needed.
+
+Now to compare a printed PDF with the real board, to figure out the 
+actual size.
+ 
+
 **February 23, 2018**
 
 Pro-D day, why not see if this can be run in a browser?
