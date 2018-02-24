@@ -21,7 +21,6 @@ describe("trivial matrix", () => {
         });
 
         test("with all values fully available", () => {
-            const m = distinctMatrix(rows, columns, possibleValues);
             expect(m.availableAt(1, 1)).toEqual(possibleValues);
         });
     });
@@ -178,11 +177,7 @@ describe("small matrix", () => {
 });
 
 function expectAcrossMatrix<T>(rows: number, columns: number, m: DistinctMatrix<T>, checkExpectation: (m: DistinctMatrix<T>, row: number, col: number) => void) {
-    for (let r = 1; r <= rows; r++) {
-        for (let c = 1; c <= columns; c++) {
-            checkExpectation(m, r, c);
-        }
-    }
+    m.iterateOver( (r, c, value) => checkExpectation(m, r, c) );
 }
 
 

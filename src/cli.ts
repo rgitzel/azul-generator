@@ -1,6 +1,9 @@
 
+import * as fs from "fs";
+import * as pdf from "pdfkit";
+
 import {DistinctMatrix, distinctMatrix, randomlyFill} from "./matrix";
-import {renderToPdfFile} from "./renderer";
+import {renderToPdf} from "./renderer";
 import {AllTiles, Tile} from "./tile";
 
 
@@ -20,4 +23,11 @@ if (m) {
 }
 
 
+
+function renderToPdfFile(board: DistinctMatrix<Tile>, filename: string) {
+    const doc = new pdf();
+    doc.pipe(fs.createWriteStream(filename));
+    renderToPdf(board, doc);
+    doc.end();
+}
 

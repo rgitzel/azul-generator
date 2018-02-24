@@ -1,7 +1,6 @@
 
-import * as fs from "fs";
+// this is a bit odd to import, the '*' one is needed, but I'm not sure how
 import * as pdf from "pdfkit";
-
 import PDFDocument = PDFKit.PDFDocument;
 
 import {DistinctMatrix} from "./matrix";
@@ -13,14 +12,8 @@ const lineWidth = 10;
 const leftMargin = 50;
 const topMargin = 50;
 
-export function renderToPdfFile(board: DistinctMatrix<Tile>, filename: string) {
-    const doc = new pdf();
-
-    doc.pipe(fs.createWriteStream(filename));
-
-    doc.lineWidth(lineWidth)
-        .fillOpacity(1.0);
-
+export function renderToPdf(board: DistinctMatrix<Tile>, doc: PDFDocument) {
+    doc.lineWidth(lineWidth).fillOpacity(1.0);
     board.iterateOver(
         (row: number, column: number, tile: Tile|undefined) => {
             if (tile != undefined) {
@@ -28,8 +21,6 @@ export function renderToPdfFile(board: DistinctMatrix<Tile>, filename: string) {
             }
         }
     );
-
-    doc.end();
 }
 
 function tiler(tile: Tile): (doc: PDFDocument , r: number, c: number) => void {
