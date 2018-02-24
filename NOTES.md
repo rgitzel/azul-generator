@@ -41,7 +41,7 @@ Well, for now, retry until it works?
 
 ```
 
-$ node build/index.js
+$ node build/index.ts
 KYRTB YBKRT BKY-R RTBKY TR-BK
 TRYBK YTKRB BYRKT RBTY- K-BTR
 RYBKT KRTYB YBKR- BKYTR T-RBK
@@ -50,27 +50,27 @@ YBRTK KTBYR RYKBT BKYR- TR-KY
 RTBKY BKTYR YBKT- TYRBK KRY-B
 RTBYK KYTBR TRYKB BKRTY YBKRT
 
-$ node build/index.js
+$ node build/index.ts
 BRYTK KBTYR TKRBY YTKRB RYBKT
 
-$ node build/index.js
+$ node build/index.ts
 BRKYT RKYTB YTBKR TBR-K KYTR-
 TBRKY YTBRK KRYTB BKTYR RYKBT
 
-$ node build/index.js
+$ node build/index.ts
 RBKTY KTBYR TKRB- YRTKB BY-RT
 TRKBY KTBYR YKRTB RBYKT BYTRK
 
-$ node build/index.js
+$ node build/index.ts
 RBKYT YTRBK TYBKR KRYTB BKTRY
 
-$ node build/index.js
+$ node build/index.ts
 KRTBY BTRYK YBKRT TYBKR RKYTB
 
-$ node build/index.js
+$ node build/index.ts
 RYTBK KRBYT TBRKY BKYTR YTKRB
 
-$ node build/index.js
+$ node build/index.ts
 RYTKB KTBRY TBRYK BRKT- YK-BT
 RBKTY KTRYB YRTBK TKBR- BY-KT
 BYKTR TBYRK YTRB- RKBYT KRT-B
@@ -79,7 +79,7 @@ YTKBR BYRKT TRY-B KBTRY RKBT-
 YBRTK KTYRB RYTB- BRKYT TKB-R
 TRKBY RYTKB BTRYK KBYTR YKBRT
 
-$ node build/index.js
+$ node build/index.ts
 BKRYT RTBKY KRTB- YBKR- TY--B
 BYKRT YKTBR KBYT- RTBYK TR-KB
 TYBKR BTRYK RKTBY YBKT- KRY-T
@@ -89,7 +89,7 @@ YRKBT RTYKB BKRY- KBTRY TYB-K
 TYBRK BTRKY YKTBR RBYT- KR-YT
 KYBTR YKRBT RTYKB BRTYK TBKRY
 
-$ node build/index.js
+$ node build/index.ts
 KRTYB TKYBR BYRKT RBKTY YTBRK
 ```
 

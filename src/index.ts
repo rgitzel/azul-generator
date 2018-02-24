@@ -1,23 +1,12 @@
 
-import {DistinctMatrix, distinctMatrix, randomlyFill} from "./matrix";
-import {renderToPdfFile} from "./renderer";
-import {AllTiles, Tile} from "./tile";
+import {renderToPdfInBrowser} from "./renderer";
+import {generateRandomBoard} from "./board";
 
+let element = document.createElement("iframe") as HTMLIFrameElement;
+element.setAttribute("width", "600");
+element.setAttribute("height", "800");
 
-let tries = 0;
-let madeAFullMatrix = false;
-let m: DistinctMatrix<Tile>|undefined;
-while (tries < 10 && !madeAFullMatrix) {
-    m = distinctMatrix(5, 5, AllTiles);
-    randomlyFill(m);
-    console.log(m.toString());
-    madeAFullMatrix = m.isFull();
-    tries ++;
-}
-
-if (m) {
-    renderToPdfFile(m, "./file.pdf");
-}
-
+renderToPdfInBrowser(generateRandomBoard(), element);
+document.body.appendChild(element);
 
 
