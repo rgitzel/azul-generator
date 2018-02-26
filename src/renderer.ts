@@ -10,7 +10,7 @@ import {offsetBy, Rectangle, scaleBy} from "./rectangle";
 const leftMargin = 50;
 const topMargin = 50;
 
-const canvasWidth = 400;
+const canvasWidth = 294;
 
 const cornerRadius = 5;
 
@@ -28,10 +28,10 @@ export function renderToPdf(board: AzulBoard, doc: PDFDocument) {
 function colourCode(tile: AzulColour): string {
     switch (tile) {
         case AzulColour.Black: return "#000";
-        case AzulColour.Blue: return "#6EA4DF";
-        case AzulColour.Red: return "#FC585B";
-        case AzulColour.Turquoise: return "#8ED3F0";
-        case AzulColour.Yellow: return "#FBD44B";
+        case AzulColour.Blue: return "#1789D4";
+        case AzulColour.Red: return "#D33C39";
+        case AzulColour.Turquoise: return "#4EC9E7";
+        case AzulColour.Yellow: return "#F7CE3E";
     }
 }
 
