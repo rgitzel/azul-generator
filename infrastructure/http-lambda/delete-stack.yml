@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: no
+  connection: local
+
+  vars:
+    project: azul-generator
+    subproject: https-proxies-for-topics
+    stack_name: '{{stack_env}}--{{project}}--{{subproject}}'
+
+  tasks:
+    - name: "ensure stack '{{stack_name}}' does not exist in '{{aws_region}}' using profile '{{profile}}'"
+      cloudformation:
+        profile: '{{profile}}'
+        stack_name: '{{stack_name}}'
+        region: '{{aws_region}}'
+        state: absent
+      register: stack_result

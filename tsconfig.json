@@ -3,7 +3,7 @@
     "sourceMap": true,
     "target": "es2015",
     "module": "commonjs",
-    "outDir": "./build",
+    "outDir": "./dist",
     "strict": true,
     "types": [
       "node",

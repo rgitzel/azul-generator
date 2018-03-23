@@ -1,0 +1,34 @@
+---
+- hosts: all
+  gather_facts: no
+  connection: local
+
+  vars:
+    project: azul-generator
+    subproject: http-lambda
+    stack_name: '{{stack_env}}--{{project}}--{{subproject}}'
+    owner: rodney.gitzel
+    policy_file: 'files/stack-policy.json'
+    template_file: 'files/stack-template.yml'
+
+  tasks:
+    - name: "ensure stack '{{stack_name}}' exists in '{{aws_region}}' using profile '{{profile}}'"
+      cloudformation:
+        profile: '{{profile}}'
+        stack_name: '{{stack_name}}'
+        region: '{{aws_region}}'
+        state: present
+        stack_policy: '{{policy_file}}'
+        template: '{{template_file}}'
+        template_parameters:
+          Environment: '{{stack_env}}'
+        tags:
+          project: '{{project}}'
+          subproject: '{{subproject}}'
+          environment: '{{stack_env}}'
+          owner: '{{owner}}'
+          lifetime: long
+          generator: 'simple-http-lambda'
+          generator_version: '2.5.0-lambda'
+          generator_timestamp: 'Fri Mar 23 19:26:34 UTC 2018'
+      register: stack_result

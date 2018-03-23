@@ -1,0 +1,11 @@
+
+Project:
+  Name:
+    MixedCase: AzulGenerator
+  Owner: rodney.gitzel
+
+HttpLambdas:
+  - Label: AzulGenerator
+    Description: a small app to generate random boards for the game Azul
+    Path: board
+

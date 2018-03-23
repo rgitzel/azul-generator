@@ -1,8 +1,8 @@
 
 .idea
 
-build
-coverage
+/dist
+/coverage
 
-node_modules
+/node_modules
 

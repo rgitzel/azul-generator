@@ -1,12 +1,10 @@
 {
   "name": "azul-generator",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.2-snapshot",
   "scripts": {
     "start": "npm run-script build && node ./build/cli",
     "test": "jest --coverage",
-    "build": "rm -rf build && tsc",
+    "build": "rm -rf dist && tsc",
     "lint": "tslint -p tsconfig.json --fix"
   },
   "author": "",
