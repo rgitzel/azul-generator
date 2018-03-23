@@ -130,3 +130,11 @@ Outputs:
       Name:
         !Sub ${Environment}--azul-generator--AzulGenerator-lambda--url
 
+  AzulGeneratorLambdaArn:
+    Description: The lambda's ARN
+    Value:
+      !GetAtt AzulGeneratorLambdaFunction.Arn
+    Export:
+      Name:
+        !Sub ${Environment}--azul-generator--AzulGenerator-lambda--arn
+

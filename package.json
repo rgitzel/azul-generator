@@ -19,7 +19,9 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
+    "@types/aws-lambda": "0.0.34",
     "@types/pdfkit": "^0.7.36",
+    "aws-lambda": "^0.1.2",
     "pdfkit": "^0.8.3"
   },
   "jest": {

@@ -1,4 +1,19 @@
 
+**March 23, 2018**
+
+Egads, it's been awhile.  Been busy with the Let's Encrypt project.
+
+Anyway, it's Pro-D.  This morning I add a generator to SI to create a stack
+with a lambda and an API gateway. It's using the idea from the TAMs NOT 
+deploy code with CFN, but to instead use the Lambda SDK to upload new code,
+that way you never fuss with S3 yourself. 
+
+I borrowed from Scott's example:  https://github.com/scottbrown/lambda-py2go-flip
+
+Now, to get a Node app up there...
+ 
+
+
 **February 24, 2018**
 
 I just measured the real board.  From the left edge of left tile
