@@ -14,7 +14,24 @@ Now, to get a Node app up there...
  
 ..........
 
-https://stackoverflow.com/questions/23686843/how-to-convert-pdfkit-object-into-buffer-using-nodejs
+Getting a Node app up there wasn't so hard. Even avoiding zipping node-modules afresh every time
+ (though the deploy script would be better a Makefile).
+ 
+But trying to get pdfkit to generate to something other than a file??  I tried a number of `stream`
+ packages... `memorystream`, `memory-streams`, `bufferstream`... none seemed to work.  Then finally
+ I happened on an example that didn't need a library:  https://stackoverflow.com/questions/23686843/how-to-convert-pdfkit-object-into-buffer-using-nodejs
+
+There the key was the callback... maybe that's what happened to the others?
+
+Anyway the next problem was returning it and... #$%@#$%@.  Return it unchanged, it comes up blank.  Turn it to
+ base64 and it comes up invalid.  
+ 
+I *think* it's an issue with API Gateway, and that it's not quite returning things right, so the browser doesn't
+ know to decode the response.  And because I'm using "Lambda Proxy" I have less control.  
+ 
+I don't understand the difference, need to read this when my head is clearer: https://medium.com/@lakshmanLD/lambda-proxy-vs-lambda-integration-in-aws-api-gateway-3a9397af0e6d
+
+Anyway, good progress, learned a bunch, and I've got a new generator.
 
 
 
