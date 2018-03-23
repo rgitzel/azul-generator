@@ -7,9 +7,12 @@ region=${2:?region is required}
 
 filename=upload.zip
 
-rm $filename
-zip $filename node_modules/*
-(cd dist/; echo 'exports.handler = require("./lambda").handler;' > index.js ; zip ../$filename *)
+rm -f $filename
+if [ ! -f node_modules.zip ] ; then
+  zip -r node_modules.zip node_modules/*
+fi
+cp node_modules.zip $filename
+(cd dist/; echo 'exports.handler = require("./lambda").handler;' > index.js ; zip -r ../$filename *)
 
 export_name=rodney-pro-d--azul-generator--AzulGenerator-lambda--arn
 

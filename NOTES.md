@@ -12,6 +12,10 @@ I borrowed from Scott's example:  https://github.com/scottbrown/lambda-py2go-fli
 
 Now, to get a Node app up there...
  
+..........
+
+https://stackoverflow.com/questions/23686843/how-to-convert-pdfkit-object-into-buffer-using-nodejs
+
 
 
 **February 24, 2018**
