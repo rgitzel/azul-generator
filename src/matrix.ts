@@ -18,11 +18,11 @@ export interface DistinctMatrix<T> {
     // TODO: make this immutable by returning copies
     set(row: number, column: number, value: T): void;
 
-    iterateOver( use: (row: number, col: number, value: T|undefined) => void ): void;
+    traverse(use: (row: number, col: number, value: T|undefined) => void ): void;
 }
 
 export function distinctMatrix<T>(rows: number, columns: number, possibleValues: Set<T>): DistinctMatrix<T> {
-    
+
     // TODO: fail if rows or columns > possibleValues.length
     // TODO: would generative testing make that fail and expose that bug by find a cell
     //   where there are no possible values?
@@ -59,14 +59,14 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
 
         columns: () => columns,
 
-        isFull: () => filledEntries == (rows * columns),
+        isFull: () => filledEntries === (rows * columns),
 
         toString: () => {
             let s = "";
             for (let row = 1; row <= rows; row++) {
                 for (let col = 1; col <= columns; col++) {
                     const v = entries[row-1][col-1].value;
-                    s += ((v != undefined) ? v : "-");
+                    s += ((v !== undefined) ? v : "-");
                 }
                 s += " ";
             }
@@ -93,14 +93,14 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
             // TODO: 'set' any values that now have one possibility?
         },
 
-        iterateOver: ( fn: (row: number, col: number, value: T|undefined) => void ) => {
+        traverse: (fn: (row: number, col: number, value: T|undefined) => void ) => {
             for (let row = 1; row <= rows; row++) {
                 for (let col = 1; col <= columns; col++) {
                     fn(row, col, entryAt(row, col).value);
                 }
             }
         }
-    }
+    };
 }
 
 // TODO: this doesn't always succeed... maybe need to recursively backtrack on choices?

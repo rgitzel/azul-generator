@@ -28,6 +28,7 @@ Resources:
                   "statusCode": 200,
                   "body": JSON.stringify(event)
               };
+              console.log("event received: " + JSON.stringify(event));
               callback(null, response);
           };
       Description: a small app to generate random boards for the game Azul

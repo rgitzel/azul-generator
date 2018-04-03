@@ -39,14 +39,14 @@ function board(m: DistinctMatrix<AzulColour>): AzulBoard {
                 if (!m.isFull()) {
                     throw new Error("can't make a board with missing spaces");
                 }
-                m.iterateOver(
+                m.traverse(
                     (row, column, colour) => {
                         const tile = azulTile(row, column, colour as AzulColour);
                         fn(tile);
                     }
-                )
+                );
             },
 
         toString: () => m.toString()
-    }
+    };
 }
