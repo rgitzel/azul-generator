@@ -1,4 +1,20 @@
 
+**April 4, 2018**
+
+Get it all going again on my new Macbook, sans Ansible Vault, and... let's get this working!
+
+So finally got it.  Lots of pages insisted it should work
+- https://github.com/serverless/serverless/issues/2797
+- https://forum.serverless.com/t/returning-binary-data-jpg-from-lambda-via-api-gateway/796/25
+
+And finally, yes.  Need `toString("base64")` (not `base-64` oops).  Need `binaryMediaType`,
+ need that flag in the response. And need `-H "Accept: application/pdf"` in the `curl` command.
+ And eventually it all works.
+
+And happily you can set the media type through Cloudformation, apparently not possible back when
+ those pages written.
+
+
 **March 23, 2018**
 
 Egads, it's been awhile.  Been busy with the Let's Encrypt project.
