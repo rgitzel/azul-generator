@@ -5,7 +5,7 @@
 
   vars:
     project: azul-generator
-    subproject: https-proxies-for-topics
+    subproject: http-lambda
     stack_name: '{{stack_env}}--{{project}}--{{subproject}}'
 
   tasks:

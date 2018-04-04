@@ -177,7 +177,7 @@ describe("small matrix", () => {
 });
 
 function expectAcrossMatrix<T>(rows: number, columns: number, m: DistinctMatrix<T>, checkExpectation: (m: DistinctMatrix<T>, row: number, col: number) => void) {
-    m.iterateOver( (r, c, value) => checkExpectation(m, r, c) );
+    m.traverse( (r, c, value) => checkExpectation(m, r, c) );
 }
 
 
