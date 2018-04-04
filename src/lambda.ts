@@ -30,35 +30,42 @@ function bufferResponse(statusCode: number, buffer: Buffer): Response {
         headers: {
             "Content-Type": "application/pdf"
         },
-        body: buffer.toString('utf-8'),
-        isBase64Encoded: false
-    }
+        body: buffer.toString("base64"),
+        isBase64Encoded: true
+    };
 }
 
 export function handler(event: any, context: Context, callback: Callback) {
     const board = randomAzulBoard();
-    renderToBuffer(board, (buffer) => callback(null, bufferResponse(200, buffer))) ;
+    renderToBuffer(board, (error, buffer) => {
+        if (error) {
+            callback(error);
+        }
+        else {
+            callback(null, bufferResponse(200, buffer));
+        }
+    }) ;
 }
 
 
-function renderToBuffer(board: AzulBoard, callback: (buffer: Buffer) => void) {
-    let buffers: any[] = [];
+function renderToBuffer(board: AzulBoard, callback: (error: any, buffer: Buffer) => void) {
+    const buffers: any[] = [];
 
     const pdf = new pdfkit();
 
-    pdf.on('data', buffers.push.bind(buffers));
-    pdf.on('end', () => {
+    pdf.on("data", buffers.push.bind(buffers));
+    pdf.on("end", () => {
         console.log(buffers.length);
-        let pdfData = Buffer.concat(buffers);
-        callback(pdfData);
+        const pdfData = Buffer.concat(buffers);
+        callback(null, pdfData);
     });
 
     renderToPdf(board, pdf);
     pdf.end();
 }
 
-
-handler({}, {} as any, (error: any, data: any) => {
-   console.log(data);
-});
+//
+// handler({}, {} as any, (error: any, data: any) => {
+//    console.log(data);
+// });
 
