@@ -1,4 +1,48 @@
 
+**April 15, 2018**
+
+https://stackoverflow.com/questions/42764973/how-to-serve-binary-data-from-aws-api-gateway-with-proxy-integration
+
+A commenter seems to have come to the same conclusion.  :(  I left a question if he ever got past it.
+
+And this in the 'Settings' section of the APIGW:
+
+    You can configure binary support for your API by specifying which media types should be treated as binary types. API Gateway will look at the Content-Type and Accept HTTP headers to decide how to handle the body.
+
+https://forums.aws.amazon.com/thread.jspa?threadID=258481&tstart=0
+
+    Hmm looking into this more today, seems that the following works:
+
+    $ curl -H "Accept: image/png" https://example.com/static/images/logo.png
+
+    However an Accept of "image/webp,image/apng,image/*,/;q=0.8" as the browser sends it will not work. Personally I'd expect that if base64 encoding is set on the response that it is treated as binary regardless of any API level config (shouldn't have to map mime types etc).
+
+https://forums.aws.amazon.com/thread.jspa?threadID=261572
+
+    If you are using Lambda proxy integration, you can't override the behavior of the Accept header sent by the client.
+
+    However, if you want the entire API to always return binary, you can set wildcard / as a binary media type.
+
+WAIT!!!
+
+Changed the binary type to `*/*` which turns out to match what the browser sends.  And it works!
+**April 14, 2018**
+
+It's still works only if you provide the Accept header:
+
+```curl -v -H "Accept: application/pdf" https://dev.azul.dropd.com/board``` -> PDF
+```curl -v https://dev.azul.dropd.com/board``` -> base64 string
+
+Of course the browser doesn't do that.
+
+I've been googling and trying all sorts of headers, thinking it's an HTTP thing, then
+ this morning was reminded it's probably actually an API Gateway thing...  so found this:
+
+https://stackoverflow.com/questions/41037026/aws-api-gateway-binary-output-without-accept-header
+
+But the suggestion doesn't apply to `LAMBDA_PROXY` endpoints.  #$#$#@$%  I wish I still had access to TAMs!
+
+
 **April 4, 2018**
 
 Get it all going again on my new Macbook, sans Ansible Vault, and... let's get this working!
@@ -9,10 +53,17 @@ So finally got it.  Lots of pages insisted it should work
 
 And finally, yes.  Need `toString("base64")` (not `base-64` oops).  Need `binaryMediaType`,
  need that flag in the response. And need `-H "Accept: application/pdf"` in the `curl` command.
- And eventually it all works.
+ And eventually it all works. I think I was just burned out by the end of Pro-D day and just
+ didn't do the right combinations.
 
 And happily you can set the media type through Cloudformation, apparently not possible back when
  those pages written.
+
+So... what next?
+- DNS entry
+- post a sample PDF to BGG for feedback on printing
+- better colours (at least for my printer)
+- somewhat of a background colour
 
 
 **March 23, 2018**

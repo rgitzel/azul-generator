@@ -6,25 +6,14 @@ import {Callback, Context} from "aws-lambda";
 import {AzulBoard, randomAzulBoard} from "./game/board";
 import {renderToPdf} from "./renderer";
 
-interface Response {
+interface LambdaResponse {
     statusCode: number;
     headers: any;
     body: string;
     isBase64Encoded: boolean;
 }
 
-function response(statusCode: number, body: any): Response {
-    return {
-        statusCode,
-        headers: {
-            "Content-Type": "application/pdf"
-        },
-        body: (typeof body === "object") ? JSON.stringify(body) : body,
-        isBase64Encoded: false
-    }
-}
-
-function bufferResponse(statusCode: number, buffer: Buffer): Response {
+function bufferResponse(statusCode: number, buffer: Buffer): LambdaResponse {
     return {
         statusCode,
         headers: {
