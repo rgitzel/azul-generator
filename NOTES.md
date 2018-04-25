@@ -1,4 +1,16 @@
 
+**April 25, 2018**
+
+Weird. I tried adding Serverless yesterday, and it generated a pile of mess. Tried it again today and... just two files
+ (well, also it bonks your existing `.gitignore`).  The handler source was redundant, my existing lambda function
+ was exactly what it needed.
+
+And... tada!  Can invoke it directly with the `serverless` executable.  No gateway, yet.
+
+    $ serverless deploy -v
+    $ serverless invoke -f azul -l
+
+
 **April 15, 2018**
 
 https://stackoverflow.com/questions/42764973/how-to-serve-binary-data-from-aws-api-gateway-with-proxy-integration
