@@ -3,6 +3,8 @@
  * draw the game board onto a PDF
  */
 
+import * as fs from "fs";
+
 // pdfkit is a bit odd to import, the '*' one is needed for the second one, but I'm not sure how they are connected
 import * as pdf from "pdfkit";
 import PDFDocument = PDFKit.PDFDocument;
@@ -33,6 +35,14 @@ export function renderToPdf(board: AzulBoard, doc: PDFDocument) {
             render(doc, r, colourCode(tile.colour));
         }
     );
+}
+
+export function renderToPdfFile(board: AzulBoard, filename: string) {
+    const doc = new pdf();
+    doc.pipe(fs.createWriteStream(filename));
+    renderToPdf(board, doc);
+    doc.end();
+    console.log(`board written to '${filename}'`);
 }
 
 // TODO: someday could make these configurable, so that users can adjust for 

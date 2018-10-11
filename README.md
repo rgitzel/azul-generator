@@ -1,10 +1,13 @@
 # azul-generator
 
-This generates randomized tile areas for the board game (Azul)[https://boardgamegeek.com/boardgame/230802/azul].
+This generates randomized tile areas for the board game [Azul](https://boardgamegeek.com/boardgame/230802/azul).
 
-(this would be a good place to take a photo!)
+_(this would be a good place for a photo!)_
 
-Currently, you can download a single randomized board (here)[https://dev.azul.dropd.com/board].
+Currently, you can download a single randomized board [here](https://dev.azul.dropd.com/board).  
+You can print it from there (print multiple copies for multiple players to use the same board), 
+or even save the PDF.
+If you want a different board, just reload the page in your browser.
 
 
 # Development Notes
@@ -17,7 +20,18 @@ the project to have dev/qa/prod environments yet.
 It can be deployed using AWS tools, or using the Serverless framework.
 
 
-## Deploy via AWS
+## Run it locally from the command line
+
+    $ make build
+
+    $ node dist/cli
+    YTKBR KBYT- BKRYT TYBK- R-T-B
+    TKBRY BTKYR YBTK- KYRBT R-YTB
+    BYTRK YTRKB KBYTR RKBYT TRKBY
+    board written to './local.pdf'
+
+
+## Deploy the Lambda via AWS Tools
 
 This version is deployed to `us-west-2`.
 
@@ -30,9 +44,15 @@ To download a PDF from currently deployed instance:
     written to 'board.pdf'
 
 
-## Deploy with Serverless
+## Deploy the Lambda with Serverless
 
 I've been deploying this version to `us-east-1`.
+
+You'll need to build the app first:
+
+    $ make build
+
+Then you can deploy it:
 
     $ serverless deploy -v
     Serverless: Packaging service...
@@ -72,8 +92,10 @@ You can hit that `GET` endpoint directly with your browser, or invoke it like th
         "headers": {
             "Content-Type": "application/pdf"
         },
-        "body": "JVBERi0xLjMKJf////8KNiAwIG9iago8PAovVHlwZSAvRXh0R1N0YXRlCi9jYSAxCj4+CmVuZG9iago1IDAgb2JqCjw8Ci9UeXBlIC9QYWdlCi9QYXJlbnQgMSAwIFIKL01lZGlhQm94IFswIDAgNjEyIDc5Ml0KL0Nv...
-        KdHJhaWxlcgo8PAovU2l6ZSA4Ci9Sb290IDIgMCBSCi9JbmZvIDcgMCBSCj4+CnN0YXJ0eHJlZgoyMzAzCiUlRU9GCg==",
+        "body":
+            "JVBERi0xLjMKJf8KNiAwIG9iago8PAovVH
+            ...
+            +CnN0YXJ0eHJlZgoyMzAzCiUlRU9GCg==",
         "isBase64Encoded": true
     }
     --------------------------------------------------------------------

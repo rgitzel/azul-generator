@@ -1,17 +1,8 @@
 
-import * as fs from "fs";
-import * as pdf from "pdfkit";
 
-import {renderToPdf} from "./renderer";
-import {AzulBoard, randomAzulBoard} from "./game/board";
-
-renderToPdfFile(randomAzulBoard(), "./file.pdf");
+import {renderToPdfFile} from "./renderer";
+import {randomAzulBoard} from "./game/board";
 
 
-function renderToPdfFile(board: AzulBoard, filename: string) {
-    const doc = new pdf();
-    doc.pipe(fs.createWriteStream(filename));
-    renderToPdf(board, doc);
-    doc.end();
-}
+renderToPdfFile(randomAzulBoard(), "./local.pdf");
 
