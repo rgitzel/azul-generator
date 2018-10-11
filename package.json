@@ -25,7 +25,8 @@
     "@types/pdfkit": "^0.7.36",
     "aws-lambda": "^0.1.2",
     "bufferstream": "^0.6.2",
-    "pdfkit": "^0.8.3"
+    "pdfkit": "^0.8.3",
+    "serverless": "^1.32.0"
   },
   "jest": {
     "transform": {
