@@ -1,6 +1,6 @@
 
 
-import {renderToPdfFile} from "./renderer";
+import {renderToPdfFile} from "./game/renderer";
 import {randomAzulBoard} from "./game/board";
 
 

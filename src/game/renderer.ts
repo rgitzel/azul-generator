@@ -9,9 +9,10 @@ import * as fs from "fs";
 import * as pdf from "pdfkit";
 import PDFDocument = PDFKit.PDFDocument;
 
-import {AzulColour, AzulTile} from "./game/tile";
-import {AzulBoard} from "./game/board";
-import {offsetBy, Rectangle, scaleBy} from "./math/rectangle";
+import {AzulColour} from "./colour"
+import {AzulTile} from "./tile";
+import {AzulBoard} from "./board";
+import {offsetBy, Rectangle, scaleBy} from "../math/rectangle";
 
 // From the left edge of left tile to right edge of the right tile is 10.2cm.  Between tiles is 2mm.
 

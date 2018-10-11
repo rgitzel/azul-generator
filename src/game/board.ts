@@ -1,9 +1,16 @@
 
 import {DistinctMatrix, distinctMatrix, randomlyFill} from "../math/matrix";
-import {AzulColours, AzulColour, AzulTile, azulTile, Dimensions} from "./tile";
+import {AzulColours, AzulColour} from "./colour";
+import {AzulTile, azulTile, Dimensions} from "./tile";
+
+/*
+ * this represents a particular set of colours in a particular
+ *  valid arrangement
+ */
 
 export interface AzulBoard {
-    width: number;
+    width: number; // TODO: shouldn't this be... 5?
+    
     iterateOverTiles( fn: (tile: AzulTile) => void ): void;
     toString: () => string;
 }
@@ -28,7 +35,6 @@ export function randomAzulBoard(): AzulBoard {
         throw new Error("failed to generate board");
     }
 }
-
 
 function board(m: DistinctMatrix<AzulColour>): AzulBoard {
     return {
