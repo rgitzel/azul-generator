@@ -49,7 +49,7 @@ pdf:  ## download a PDF from the Lambda
 		cloudformation list-exports \
 			--query 'Exports[?Name == `$(environment)--azul-generator--AzulGenerator-lambda--url`].Value' \
 			--output text))
-	@curl -H "Accept: application/pdf" $(URL)
+	@curl $(URL)
 
 clean: ## Remove any temporary project directories
 	rm -rf $(upload_file)

@@ -2,6 +2,8 @@
 /*
  * a 2D array of values from a restricted set where no value
  *  appears more than once in any given row or column
+ * 
+ * 'distinct' is a mathemetical term
  */
 
 export interface DistinctMatrix<T> {

@@ -11,6 +11,25 @@ And... tada!  Can invoke it directly with the `serverless` executable.  No gatew
     $ serverless invoke -f azul -l
 
 
+So what about the gateway...  wow, just a few simple lines of YAML. Nice.
+
+But coming back as base64, how decode?  Ah, need a [plugin](https://medium.com/nextfaze/binary-responses-with-serverless-framework-and-api-gateway-5fde91376b76):
+
+    plugins:
+      - serverless-apigw-binary
+
+    custom:
+      apigwBinary:
+        types:
+          - '*/*'
+
+And, no...
+
+Weird, I had to do a deploy from the console. Now it works
+
+
+
+
 **April 15, 2018**
 
 https://stackoverflow.com/questions/42764973/how-to-serve-binary-data-from-aws-api-gateway-with-proxy-integration
@@ -38,6 +57,8 @@ https://forums.aws.amazon.com/thread.jspa?threadID=261572
 WAIT!!!
 
 Changed the binary type to `*/*` which turns out to match what the browser sends.  And it works!
+
+
 **April 14, 2018**
 
 It's still works only if you provide the Accept header:

@@ -1,4 +1,4 @@
-import {Rectangle} from "../rectangle";
+import {Rectangle} from "../math/rectangle";
 
 
 export interface AzulTile {

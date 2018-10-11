@@ -1,5 +1,5 @@
 
-import {DistinctMatrix, distinctMatrix, randomlyFill} from "../matrix";
+import {DistinctMatrix, distinctMatrix, randomlyFill} from "../math/matrix";
 import {AzulColours, AzulColour, AzulTile, azulTile, Dimensions} from "./tile";
 
 export interface AzulBoard {

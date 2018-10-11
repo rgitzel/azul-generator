@@ -1,4 +1,9 @@
 
+/*
+ * surprisingly, I wasn't able to find a good Typescript representation of
+ *  a plane old box on a 2D plane...
+ */
+
 
 export interface Rectangle {
     top: number;
