@@ -31,9 +31,16 @@ It can be deployed using AWS tools, or using the Serverless framework.
     board written to './local.pdf'
 
 
-## Deploy the Lambda via AWS Tools
+## AWS Tools
 
 This version is deployed to `us-west-2`.
+
+### Create the infrastructure
+
+The `infrastructure` folder contains a generated CloudFormation template and associated
+files for deploying the stack.  Run the `deploy-all.sh` script to create the needed resources.
+
+### Deploy the Lambda using the AWS API
 
     $ make deploy
 
@@ -44,9 +51,13 @@ To download a PDF from currently deployed instance:
     written to 'board.pdf'
 
 
-## Deploy the Lambda with Serverless
+## Using Serverless
+
+Serverless handles both the stack and application deployments.
 
 I've been deploying this version to `us-east-1`.
+
+### Deploy with Serverless
 
 You'll need to build the app first:
 
@@ -108,3 +119,7 @@ You can hit that `GET` endpoint directly with your browser, or invoke it like th
 
 
 
+## Logs and Monitoring
+
+The Lambda logs are in the usual place in CloudWatch.  There are no visitor logs per se yet.
+No metrics have been set up in CloudWatch yet.
