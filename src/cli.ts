@@ -1,8 +1,8 @@
 
 
 import {renderToPdfFile} from "./game/renderer";
-import {randomAzulBoard} from "./game/board";
+import {randomTileWall} from "./game/wall";
 
 
-renderToPdfFile(randomAzulBoard(), "./local.pdf");
+renderToPdfFile(randomTileWall(), "./local.pdf");
 

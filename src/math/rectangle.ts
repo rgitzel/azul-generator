@@ -1,31 +1,37 @@
 
 /*
- * surprisingly, I wasn't able to find a good Typescript representation of
+ * I wasn't able to find a good Typescript representation of
  *  a plane old box on a 2D plane...
  */
 
 
 export interface Rectangle {
-    top: number;
-    left: number;
-    height: number;
-    width: number;
+    top: number
+    left: number
+    height: number
+    width: number
+
+    // this is scaled relative to the origin in the upper left
+    scaleBy: (factor: number) => Rectangle
+
+    offsetBy: (deltaTop: number, deltaLeft: number) => Rectangle
 }
 
-export function scaleBy(factor: number, r: Rectangle): Rectangle {
+export function rectangle(top: number, left: number, height: number, width: number): Rectangle {
     return {
-        top: r.top * factor,
-        left: r.left * factor,
-        height: r.height * factor,
-        width: r.width * factor
-    };
-}
+        top,
+        left,
+        height,
+        width,
 
-export function offsetBy(deltaTop: number, deltaLeft: number, r: Rectangle): Rectangle {
-    return {
-        top: r.top + deltaTop,
-        left: r.left + deltaLeft,
-        height: r.height,
-        width: r.width
-    };
+        scaleBy:
+            (factor: number) => {
+                return rectangle(top * factor, left * factor, height * factor, width * factor);
+            },
+        
+        offsetBy:
+            (deltaTop: number, deltaLeft: number) => {
+                return rectangle(top + deltaTop, left + deltaLeft, height, width);
+            }
+    }
 }

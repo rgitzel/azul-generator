@@ -10,11 +10,8 @@ import * as pdf from "pdfkit";
 import PDFDocument = PDFKit.PDFDocument;
 
 import {AzulColour} from "./colour"
-import {AzulTile} from "./tile";
-import {AzulBoard} from "./board";
-import {offsetBy, Rectangle, scaleBy} from "../math/rectangle";
-
-// From the left edge of left tile to right edge of the right tile is 10.2cm.  Between tiles is 2mm.
+import {TileWall, WallSize} from "./wall";
+import {Rectangle, rectangle} from "../math/rectangle";
 
 // I don't recall, now, if this is calculated, or just arrived at by generating and measuring
 //  until it was right. Probably the latter.
@@ -27,18 +24,18 @@ const topMargin = 50;
 // arrived at by trial-and-error
 const cornerRadius = 5;
 
-export function renderToPdf(board: AzulBoard, doc: PDFDocument) {
-    doc.fillOpacity(1.0);
-    const factor = canvasWidth / board.width;
-    board.iterateOverTiles(
-        (tile: AzulTile) => {
-            const r = offsetBy(topMargin, leftMargin, scaleBy(factor, tile.position));
-            render(doc, r, colourCode(tile.colour));
+export function renderToPdf(board: TileWall, pdf: PDFDocument) {
+    pdf.fillOpacity(1.0);
+    const factor = canvasWidth / totalWidth;
+    board.iterateOverSpaces(
+        (row: number, column: number, colour: AzulColour) => {
+            const r = rectangleFor(row, column).scaleBy(factor).offsetBy(topMargin, leftMargin);
+            renderRectangle(pdf, r, colourCode(colour));
         }
     );
 }
 
-export function renderToPdfFile(board: AzulBoard, filename: string) {
+export function renderToPdfFile(board: TileWall, filename: string) {
     const doc = new pdf();
     doc.pipe(fs.createWriteStream(filename));
     renderToPdf(board, doc);
@@ -58,6 +55,28 @@ function colourCode(tile: AzulColour): string {
     }
 }
 
-function render(doc: PDFDocument, r: Rectangle, colourCode: string) {
+function renderRectangle(doc: PDFDocument, r: Rectangle, colourCode: string) {
     doc.roundedRect(r.left, r.top, r.width, r.width, cornerRadius).fill(colourCode);
+}
+
+// -----------------------------------------------------------------------
+
+// TODO: where does this belong?
+
+// the board is 10.2cm between the outside edges of the outside tiles,
+//  and there is 2mm between tiles
+//
+//  20 2 20 2 20 2 20 2 20 = 108mm
+//  19 2 19 2 19 2 19 2 19 = 103mm... close enough?
+
+const tileWidth = 19;
+const gapBetweenTiles = 2;
+const totalWidth =  WallSize * tileWidth + (WallSize-1) * gapBetweenTiles
+
+function rectangleFor(row: number, column: number): Rectangle {
+    const top = (row - 1) * (tileWidth + gapBetweenTiles);
+    const left = (column - 1) * (tileWidth + gapBetweenTiles);
+    const height = tileWidth;
+    const width = tileWidth;
+    return rectangle(top, left, height, width);
 }

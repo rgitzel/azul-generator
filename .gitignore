@@ -11,3 +11,5 @@
 .serverless
 
 *.pdf
+
+.DS_Store
