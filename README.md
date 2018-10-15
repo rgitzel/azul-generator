@@ -37,7 +37,7 @@ This version is deployed to `us-west-2`.
 
 ### Create the infrastructure
 
-The `infrastructure` folder contains a generated CloudFormation template and associated
+The `infrastructure/simple` folder contains a generated CloudFormation template and associated
 files for deploying the stack.  Run the `deploy-all.sh` script to create the needed resources.
 
 ### Deploy the Lambda using the AWS API

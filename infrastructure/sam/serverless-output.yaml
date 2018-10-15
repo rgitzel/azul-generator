@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  WallGenerator:
+    Events:
+      Generate:
+        Properties:
+          Method: post
+          Path: /generate
+        Type: Api
+    Properties:
+      CodeUri: s3://rgitzel-lambda-artifacts/azul-generator.zip
+      Handler: index.handler
+      Runtime: nodejs6.10
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
