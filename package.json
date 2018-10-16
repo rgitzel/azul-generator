@@ -1,6 +1,6 @@
 {
   "name": "azul-generator",
-  "version": "0.0.2-snapshot",
+  "version": "0.0.2",
   "scripts": {
     "start": "npm run-script build && node ./build/cli",
     "test": "jest --coverage",
