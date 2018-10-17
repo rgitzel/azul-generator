@@ -2,12 +2,15 @@
 
 This generates randomized tile areas for the board game [Azul](https://boardgamegeek.com/boardgame/230802/azul).
 
-_(this would be a good place for a photo!)_
+_(Note to self, this would be a good place for a photo!)_
 
-Currently, you can download a single randomized board [here](https://dev.azul.dropd.com/board).  
-You can print it from there (print multiple copies for multiple players to use the same board), 
-or even save the PDF.
-If you want a different board, just reload the page in your browser.
+
+~~Currently, you can download a single randomized board [here](https://dev.azul.dropd.com/board).~~
+~~You can print it from there (print multiple copies for multiple players to use the same board),~~
+~~or even save the PDF. If you want a different board, just reload the page in your browser.~~
+
+_October 17:_ I'm in the midst of building a proper little site with a stable 'production'
+version.  In the meantime, there's an example PDF [here](https://boardgamegeek.com/filepage/164845/randomized-azul-board).
 
 
 # Development Notes
