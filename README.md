@@ -1,8 +1,11 @@
 # azul-generator
 
-This generates randomized tile areas for the board game [Azul](https://boardgamegeek.com/boardgame/230802/azul).
+This generates randomized tile walls for the board game [Azul](https://boardgamegeek.com/boardgame/230802/azul).
 
-_(Note to self, this would be a good place for a photo!)_
+Here it is in action at SHUX 2018.  Four of us used the same generated tile
+wall and each chose how we wanted to rotate it:
+
+![at SHUX](docs/images/at_shux_2018.png)
 
 
 ~~Currently, you can download a single randomized board [here](https://dev.azul.dropd.com/board).~~
