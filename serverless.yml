@@ -13,101 +13,79 @@
 
 service: azul-generator
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
-
-provider:
-  name: aws
-  runtime: nodejs6.10
-
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
-
-# you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
-
-# you can define service wide environment variables here
-#  environment:
-#    variable1: value1
-
-# you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
-
-functions:
-  azul:
-    handler: dist/lambda.handler
-
-#    The following are a few example events you can configure
-#    NOTE: Please make sure to change your handler code to work with those events
-#    Check the event documentation for details
-    events:
-      - http:
-          path: board-serverless.pdf
-          method: get
-#      - s3: ${env:BUCKET}
-#      - schedule: rate(10 minutes)
-#      - sns: greeter-topic
-#      - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-#      - alexaSkill
-#      - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-#      - iot:
-#          sql: "SELECT * FROM 'some_topic'"
-#      - cloudwatchEvent:
-#          event:
-#            source:
-#              - "aws.ec2"
-#            detail-type:
-#              - "EC2 Instance State-change Notification"
-#            detail:
-#              state:
-#                - pending
-#      - cloudwatchLog: '/aws/lambda/hello'
-#      - cognitoUserPool:
-#          pool: MyUserPool
-#          trigger: PreSignUp
-
-#    Define function environment variables here
-#    environment:
-#      variable2: value2
-
-# you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
-
 
 plugins:
-  - serverless-apigw-binary
+# Enables binary support in AWS API Gateway service
+- serverless-apigw-binary
 
 custom:
   apigwBinary:
     types:
       - '*/*'
+  s3Bucket: dev.azul.dropd.com
+  region: 'us-east-1'
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+functions:
+  azul:
+    handler: 'dist/lambda.handler'
+    events:
+      - http:
+          path: '/wall/'
+          method: get
+
+resources:
+  Resources:
+    CloudFrontOriginAccessIdentity:
+      Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: allows CloudFront to access bucket '${self:custom.s3Bucket}'
+
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Enabled: true
+          DefaultRootObject: index.html
+          Origins:
+            - Id: StaticContent
+              DomainName: ${self:custom.s3Bucket}.s3.amazonaws.com
+              S3OriginConfig:
+                OriginAccessIdentity:
+                  Fn::Join:
+                    - ""
+                    - - 'origin-access-identity/cloudfront/'
+                      - Ref: CloudFrontOriginAccessIdentity
+            - Id: Lambda
+              OriginPath: '/AzulGenerator'
+              DomainName:
+                Fn::Join:
+                  - '.'
+                  - - Ref: ApiGatewayRestApi
+                    - 'execute-api.${self:custom.region}.amazonaws.com'
+              CustomOriginConfig:
+                OriginProtocolPolicy: 'https-only'
+          CacheBehaviors:
+            - PathPattern: '/wall/'
+              TargetOriginId: Lambda
+              AllowedMethods:
+                - GET
+                - HEAD
+                - OPTIONS
+              ViewerProtocolPolicy: 'https-only'
+              ForwardedValues:
+                QueryString: false
+                Headers:
+                  - Authorization
+                  - 'Content-Type'
+          DefaultCacheBehavior:
+            TargetOriginId: StaticContent
+            ViewerProtocolPolicy: 'redirect-to-https'
+            DefaultTTL: 30
+            ForwardedValues:
+              QueryString: false
+
