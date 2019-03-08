@@ -3,8 +3,8 @@ import * as pdfkit from "pdfkit";
 
 import {Callback, Context} from "aws-lambda";
 
-import {TileWall, randomTileWall} from "./game/wall";
 import {renderToPdf} from "./game/renderer";
+import {randomTileWall, TileWall} from "./game/wall";
 
 interface LambdaResponse {
     statusCode: number;
@@ -36,7 +36,6 @@ export function handler(event: any, context: Context, callback: Callback) {
     }) ;
 }
 
-
 function renderToBuffer(board: TileWall, callback: (error: any, buffer: Buffer) => void) {
     const buffers: any[] = [];
 
@@ -57,4 +56,3 @@ function renderToBuffer(board: TileWall, callback: (error: any, buffer: Buffer) 
 // handler({}, {} as any, (error: any, data: any) => {
 //    console.log(data);
 // });
-

@@ -1,0 +1,17 @@
+---
+
+deployments:
+  - modules:
+      - path: generator
+        environments:
+          dev: false
+    regions:
+      - us-east-1
+      - us-west-1
+      - us-west-2
+    env_vars:
+      '*':
+        # this is truly global, across all deployments to all accounts
+        deployment_name: azul-generator
+        # this is specific to the account... need somewhere else to put this
+        serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney

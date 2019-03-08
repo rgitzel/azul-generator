@@ -1,14 +1,14 @@
 
 .idea
 
-/dist
-/coverage
-
-/node_modules
+dist
+coverage
+node_modules
 
 *.zip
 
 .serverless
+.webpack
 
 *.pdf
 

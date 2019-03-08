@@ -1,4 +1,12 @@
 
+**March 11, 2019**
+Finished the convertion to use Runway, using Serverless, which is way easier than Cloudformation!
+
+I've configured Runway to deploy three environments, and for kicks each goes to a different region.
+
+Now to get Route53 into the mix... and a "static site"...
+
+
 **April 25, 2018**
 
 Weird. I tried adding Serverless yesterday, and it generated a pile of mess. Tried it again today and... just two files

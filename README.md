@@ -23,11 +23,12 @@ The application is written in Typescript and deployed as an AWS Lambda function.
 So far only "dev" versions are deployed. I haven't progressed far enough with
 the project to have dev/qa/prod environments yet.
 
-It can be deployed using AWS tools, or using the Serverless framework.
+It is deployed using [Runway](https://docs.onica.com/projects/runway/en/latest/index.html) and Serverless.
 
 
 ## Run it locally from the command line
 
+    $ cd generator
     $ make build
 
     $ node dist/cli
@@ -37,91 +38,38 @@ It can be deployed using AWS tools, or using the Serverless framework.
     board written to './local.pdf'
 
 
-## AWS Tools
+## Using Runway
 
-This version is deployed to `us-west-2`.
-
-### Create the infrastructure
-
-The `infrastructure` folder contains a generated CloudFormation template and associated
-files for deploying the stack.  Run the `deploy-all.sh` script to create the needed resources.
-
-### Deploy the Lambda using the AWS API
-
-    $ make deploy
-
-To download a PDF from currently deployed instance:
-
-    $ make pdf
-    https://8x0vqwvi0a.execute-api.us-west-2.amazonaws.com/AzulGenerator/board
-    written to 'board.pdf'
-
-
-## Using Serverless
-
-Serverless handles both the stack and application deployments.
-
-I've been deploying this version to `us-east-1`.
-
-### Deploy with Serverless
-
-You'll need to build the app first:
-
-    $ make build
+You'll first need to install Runway (I'll see about using a Docker version).
 
 Then you can deploy it:
 
-    $ serverless deploy -v
-    Serverless: Packaging service...
-    Serverless: Excluding development dependencies...
-    Serverless: Uploading CloudFormation file to S3...
-    Serverless: Uploading artifacts...
-    Serverless: Uploading service .zip file to S3 (12.32 MB)...
-    Serverless: Validating template...
-    Serverless: Updating Stack...
-    Serverless: Checking Stack update progress...
-    CloudFormation - UPDATE_IN_PROGRESS - AWS::CloudFormation::Stack - azul-generator-dev
+    $ DEPLOY_ENVIRONMENT=prod pipenv run runway deploy
+    INFO:runway:
+    INFO:runway:Environment "prod" was determined from the DEPLOY_ENVIRONMENT environment variable.
+    INFO:runway:If this is not correct, update the value (or unset it to fall back to the name of the current git branch or parent directory).
+    INFO:runway:
+    INFO:runway:Found 1 deployment(s)
+    INFO:runway:
     ...
-    CloudFormation - UPDATE_COMPLETE - AWS::CloudFormation::Stack - azul-generator-dev
-    Serverless: Stack update finished...
+    Serverless: Stack create finished...
     Service Information
-    service: azul-generator
-    stage: dev
+    service: azul-generator-prod-generator
+    stage: prod
     region: us-east-1
-    stack: azul-generator-dev
+    stack: azul-generator-prod-generator
+    resources: 9
     api keys:
       None
     endpoints:
-      GET - https://t0b2yj7k70.execute-api.us-east-1.amazonaws.com/dev/board-serverless.pdf
+      GET - https://1fmt1dfq8e.execute-api.us-east-1.amazonaws.com/prod/board-serverless.pdf
     functions:
-      azul: azul-generator-dev-azul
+      azul: azul-generator-prod-generator-prod-azul
+    layers:
+      None    
 
-    Stack Outputs
-    AzulLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:625907101871:function:azul-generator-dev-azul:4
-    ServiceEndpoint: https://t0b2yj7k70.execute-api.us-east-1.amazonaws.com/dev
-    ServerlessDeploymentBucketName: azul-generator-dev-serverlessdeploymentbucket-19n5awfzb5mgu
-
-You can hit that `GET` endpoint directly with your browser, or invoke it like this:
-
-    $ serverless invoke -f azul -l
-    {
-        "statusCode": 200,
-        "headers": {
-            "Content-Type": "application/pdf"
-        },
-        "body":
-            "JVBERi0xLjMKJf8KNiAwIG9iago8PAovVH
-            ...
-            +CnN0YXJ0eHJlZgoyMzAzCiUlRU9GCg==",
-        "isBase64Encoded": true
-    }
-    --------------------------------------------------------------------
-    START RequestId: 51998bc6-cd8d-11e8-8ef0-7b86d5d0f9bf Version: $LATEST
-    2018-10-11 12:39:07.818 (-07:00)	51998bc6-cd8d-11e8-8ef0-7b86d5d0f9bf	BKYRT RYBTK YTRKB KRTY- TBK-R
-    2018-10-11 12:39:07.819 (-07:00)	51998bc6-cd8d-11e8-8ef0-7b86d5d0f9bf	YRTBK BYRKT KTBYR RBKTY TKYRB
-    2018-10-11 12:39:07.937 (-07:00)	51998bc6-cd8d-11e8-8ef0-7b86d5d0f9bf	42
-    END RequestId: 51998bc6-cd8d-11e8-8ef0-7b86d5d0f9bf
-    REPORT RequestId: 51998bc6-cd8d-11e8-8ef0-7b86d5d0f9bf	Duration: 123.42 ms	Billed Duration: 200 ms 	Memory Size: 1024 MB	Max Memory Used: 51 MB
+    
+You can hit that `GET` endpoint directly with your browser.
 
 
 

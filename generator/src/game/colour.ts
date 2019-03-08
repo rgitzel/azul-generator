@@ -9,5 +9,3 @@ export const enum AzulColour {
 }
 
 export const AzulColours = new Set([AzulColour.Black, AzulColour.Blue, AzulColour.Red, AzulColour.Turquoise, AzulColour.Yellow]);
-
-

@@ -1,32 +1,35 @@
 {
   "name": "azul-generator",
-  "version": "0.0.2",
+  "version": "0.0.3-snapshot",
   "scripts": {
-    "start": "npm run-script build && node ./build/cli",
+    "start": "npm run-script build && node ./dist/cli.js",
     "test": "jest --coverage",
     "build": "rm -rf dist && tsc",
     "lint": "tslint -p tsconfig.json --fix"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "rgitzel",
   "devDependencies": {
-    "@types/jest": "^21.1.8",
-    "@types/node": "^8.10.36",
-    "jest": "^21.2.1",
+    "@types/aws-lambda": "^8.10.21",
+    "@types/jest": "^24.0.10",
+    "@types/node": "^11.10.5",
+    "jest": "^24.3.1",
     "serverless-apigw-binary": "^0.4.4",
-    "ts-jest": "^21.2.3",
+    "serverless-webpack": "^5.2.0",
+    "source-map-support": "^0.5.10",
+    "transform-loader": "0.2.4",
+    "ts-jest": "^24.0.0",
     "ts-node": "^3.3.0",
-    "tslint": "^5.11.0",
-    "typescript": "^2.9.2"
+    "tslint": "^5.13.1",
+    "ts-loader": "^5.3.3",
+    "typescript": "^2.9.2",
+    "webpack": "^4.29.6"
   },
   "dependencies": {
-    "@types/aws-lambda": "0.0.34",
     "@types/bufferstream": "^0.6.35",
     "@types/pdfkit": "^0.7.36",
     "aws-lambda": "^0.1.2",
     "bufferstream": "^0.6.2",
-    "pdfkit": "^0.8.3",
-    "serverless": "^1.32.0"
+    "pdfkit": "^0.8.3"
   },
   "jest": {
     "transform": {
