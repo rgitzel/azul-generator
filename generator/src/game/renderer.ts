@@ -9,9 +9,9 @@ import * as fs from "fs";
 import * as pdf from "pdfkit";
 import PDFDocument = PDFKit.PDFDocument;
 
-import {AzulColour} from "./colour"
-import {TileWall, WallSize} from "./wall";
 import {Rectangle, rectangle} from "../math/rectangle";
+import {AzulColour} from "./colour";
+import {TileWall, WallSize} from "./wall";
 
 // I don't recall, now, if this is calculated, or just arrived at by generating and measuring
 //  until it was right. Probably the latter.
@@ -24,13 +24,13 @@ const topMargin = 50;
 // arrived at by trial-and-error
 const cornerRadius = 5;
 
-export function renderToPdf(board: TileWall, pdf: PDFDocument) {
-    pdf.fillOpacity(1.0);
+export function renderToPdf(board: TileWall, doc: PDFDocument) {
+    doc.fillOpacity(1.0);
     const factor = canvasWidth / totalWidth;
     board.iterateOverSpaces(
         (row: number, column: number, colour: AzulColour) => {
             const r = rectangleFor(row, column).scaleBy(factor).offsetBy(topMargin, leftMargin);
-            renderRectangle(pdf, r, colourCode(colour));
+            renderRectangle(doc, r, colourCode(colour));
         }
     );
 }
@@ -43,7 +43,7 @@ export function renderToPdfFile(board: TileWall, filename: string) {
     console.log(`board written to '${filename}'`);
 }
 
-// TODO: someday could make these configurable, so that users can adjust for 
+// TODO: someday could make these configurable, so that users can adjust for
 //  their particular printer
 function colourCode(tile: AzulColour): string {
     switch (tile) {
@@ -55,8 +55,8 @@ function colourCode(tile: AzulColour): string {
     }
 }
 
-function renderRectangle(doc: PDFDocument, r: Rectangle, colourCode: string) {
-    doc.roundedRect(r.left, r.top, r.width, r.width, cornerRadius).fill(colourCode);
+function renderRectangle(doc: PDFDocument, r: Rectangle, code: string) {
+    doc.roundedRect(r.left, r.top, r.width, r.width, cornerRadius).fill(code);
 }
 
 // -----------------------------------------------------------------------
@@ -71,7 +71,7 @@ function renderRectangle(doc: PDFDocument, r: Rectangle, colourCode: string) {
 
 const tileWidth = 19;
 const gapBetweenTiles = 2;
-const totalWidth =  WallSize * tileWidth + (WallSize-1) * gapBetweenTiles
+const totalWidth =  WallSize * tileWidth + (WallSize - 1) * gapBetweenTiles;
 
 function rectangleFor(row: number, column: number): Rectangle {
     const top = (row - 1) * (tileWidth + gapBetweenTiles);

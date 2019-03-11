@@ -1,6 +1,6 @@
 
 import {DistinctMatrix, distinctMatrix, randomlyFill} from "../math/matrix";
-import {AzulColours, AzulColour} from "./colour";
+import {AzulColour, AzulColours} from "./colour";
 
 /*
  * this represents a particular set of colours in a particular
@@ -10,11 +10,11 @@ import {AzulColours, AzulColour} from "./colour";
 export const WallSize = 5;
 
 export interface TileWall {
-    iterateOverSpaces( fn: (row: number, column: number, colour: AzulColour) => void ): void;
     toString: () => string;
+    iterateOverSpaces( fn: (row: number, column: number, colour: AzulColour) => void ): void;
 }
 
-const maxTries = 100
+const maxTries = 100;
 
 export function randomTileWall(): TileWall {
     let m: DistinctMatrix<AzulColour>|undefined;
@@ -30,7 +30,7 @@ export function randomTileWall(): TileWall {
     }
 
     if (m) {
-        console.log(`took ${tries} tries to successfully generate a random wall`)
+        console.log(`took ${tries} tries to successfully generate a random wall`);
         return tileWall(m);
     }
     else {

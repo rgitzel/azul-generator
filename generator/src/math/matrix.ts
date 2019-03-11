@@ -2,7 +2,7 @@
 /*
  * a 2D array of values from a restricted set where no value
  *  appears more than once in any given row or column
- * 
+ *
  * 'distinct' is a mathemetical term
  */
 
@@ -34,7 +34,7 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
     let filledEntries = 0;
 
     function entryAt(row: number, column: number): MatrixEntry<T> {
-        return entries[row-1][column-1];
+        return entries[row - 1][column - 1];
     }
 
     function updatedEntryFor(row: number, column: number, newValue: T) {
@@ -46,13 +46,13 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
 
     function removeFromRowPossibilities(row: number, value: T) {
         for (let col = 0; col < columns; col++) {
-            entries[row-1][col].available.delete(value);
+            entries[row - 1][col].available.delete(value);
         }
     }
 
     function removeFromColumnPossibilities(column: number, value: T) {
         for (let row = 0; row < rows; row++) {
-            entries[row][column-1].available.delete(value);
+            entries[row][column - 1].available.delete(value);
         }
     }
 
@@ -67,7 +67,7 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
             let s = "";
             for (let row = 1; row <= rows; row++) {
                 for (let col = 1; col <= columns; col++) {
-                    const v = entries[row-1][col-1].value;
+                    const v = entries[row - 1][col - 1].value;
                     s += ((v !== undefined) ? v : "-");
                 }
                 s += " ";
@@ -80,13 +80,13 @@ export function distinctMatrix<T>(rows: number, columns: number, possibleValues:
         },
 
         availableAt: (row: number, column: number) => {
-            return entries[row-1][column-1].available;
+            return entries[row - 1][column - 1].available;
         },
 
         set: (row: number, column: number, value: T) => {
             // TODO: fail if value already set? or return boolean?
 
-            entries[row-1][column-1] = updatedEntryFor(row, column, value);
+            entries[row - 1][column - 1] = updatedEntryFor(row, column, value);
             removeFromRowPossibilities(row, value);
             removeFromColumnPossibilities(column, value);
 
@@ -117,7 +117,6 @@ export function randomlyFill<T>(m: DistinctMatrix<T>) {
         }
     }
 }
-
 
 function randomFromSet<T>(set: Set<T>): T {
     const i = Math.floor(Math.random() * Math.floor(set.size));

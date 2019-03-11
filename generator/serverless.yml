@@ -1,0 +1,51 @@
+
+service: ${env:deployment_name}-${opt:stage}-generator
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage}
+  apiName: ${self:service}
+  region: ${opt:region}
+  stackName: ${self:service}
+  deploymentBucket:
+    name: ${env:serverless_deployment_bucket_prefix}-${opt:region}
+
+plugins:
+  # allows us to return a binary file
+  - serverless-apigw-binary
+  # automatically builds and packages Typescript
+  - serverless-webpack
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+  webpack:
+    includeModules: true
+
+functions:
+  azul:
+    handler: src/lambda.handler
+    events:
+      - http:
+          path: board-serverless.pdf
+          method: get
+    role: BasicRole
+
+
+resources:
+  Resources:
+    BasicRole:
+      Type: 'AWS::IAM::Role'
+      Properties:
+        ManagedPolicyArns:
+          - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+          - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action: 'sts:AssumeRole'
+              Principal:
+                Service: lambda.amazonaws.com
