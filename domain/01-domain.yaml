@@ -1,0 +1,16 @@
+
+namespace: ${namespace}
+
+stacker_bucket: ''
+
+stacks:
+
+  domain:
+    template_path: templates/domain.yaml
+    variables:
+      ApiGatewayHostedZoneId: ${api_gateway_hosted_zone_id}
+      HostedZoneName: lab.dropd.com.
+      Name: ${environment}.lab.dropd.com
+      RegionalCertificateArn: ${certificate_arn}
+      RestApiId: ${xref ${namespace}-generator::RestApiId}
+      Stage: ${stage}

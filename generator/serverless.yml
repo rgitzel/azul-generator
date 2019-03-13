@@ -3,6 +3,7 @@ service: ${env:deployment_name}-${opt:stage}-generator
 
 provider:
   name: aws
+  endpointType: REGIONAL
   runtime: nodejs8.10
   stage: ${opt:stage}
   apiName: ${self:service}
@@ -16,16 +17,24 @@ plugins:
   - serverless-apigw-binary
   # automatically builds and packages Typescript
   - serverless-webpack
+  # manage Route53 and Cloudfront
+#  - serverless-domain-manager
 
 custom:
   apigwBinary:
     types:
       - '*/*'
+#  customDomain:
+#    domainName: '${opt:stage}.lab.dropd.com'
+#    basePath: ''
+#    stage: ${opt:stage}
+#    createRoute53Record: true
+#    certificateName: '${opt:stage}.lab.dropd.com'
   webpack:
     includeModules: true
 
 functions:
-  azul:
+  AzulBoard:
     handler: src/lambda.handler
     events:
       - http:
@@ -49,3 +58,8 @@ resources:
               Action: 'sts:AssumeRole'
               Principal:
                 Service: lambda.amazonaws.com
+
+  Outputs:
+    RestApiId:
+      Description: 'the short ID of the API Gateway API'
+      Value: !Ref ApiGatewayRestApi

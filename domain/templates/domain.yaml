@@ -1,0 +1,56 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: 'add a domain to a Serverless app'
+
+Parameters:
+  ApiGatewayHostedZoneId:
+    Description: 'where we can put temporary files in the bucket'
+    Type: String
+  HostedZoneName:
+    Description: 'where we can put temporary files in the bucket'
+    Type: String
+  Name:
+    Description: 'where we can put temporary files in the bucket'
+    Type: String
+  RegionalCertificateArn:
+    Description: 'where we can put temporary files in the bucket'
+    Type: String
+  RestApiId:
+    Description: 'where we can put temporary files in the bucket'
+    Type: String
+  Stage:
+    Description: 'where we can put temporary files in the bucket'
+    Type: String
+
+
+Resources:
+
+  DomainName:
+    Type: AWS::ApiGateway::DomainName
+    Properties:
+      DomainName: !Ref Name
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      RegionalCertificateArn: !Ref RegionalCertificateArn
+
+  BasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: ''
+      DomainName: !Ref Name
+      RestApiId: !Ref RestApiId
+      Stage: !Ref Stage
+
+  RecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneName: !Ref HostedZoneName
+      RecordSets:
+        - Name: !Ref Name
+          Type: A
+          AliasTarget:
+            DNSName: !GetAtt DomainName.RegionalDomainName
+            HostedZoneId: !GetAtt DomainName.RegionalHostedZoneId
+
