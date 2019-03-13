@@ -1,5 +1,5 @@
 
-namespace: ${namespace}
+namespace: azul-generator-dev
 
 stacker_bucket: ''
 
@@ -8,8 +8,8 @@ stacks:
   domain:
     template_path: templates/domain.yaml
     variables:
-      HostedZoneName: '${domain}.'
-      Hostname: '${environment}.${domain}'
+      HostedZoneName: '${envvar domain}.'
+      Hostname: '${envvar runway_environment}.${envvar domain}'
       RegionalCertificateArn: '${certificate_arn}'
-      ApiGatewayRestApiId: '${xref ${namespace}-generator::RestApiId}'
-      ApiGatewayStage: '${api_gateway_stage}'
+      ApiGatewayRestApiId: '${xref ${envvar deployment_name}-${envvar runway_environment}-generator::RestApiId}'
+      ApiGatewayStage: '${envvar runway_environment}'

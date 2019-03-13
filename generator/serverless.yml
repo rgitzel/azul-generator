@@ -1,5 +1,5 @@
 
-service: ${env:deployment_name}-${opt:stage}-generator
+service: ${env:deployment_name}-${env:runway_environment}-${opt:stage}-generator
 
 provider:
   name: aws

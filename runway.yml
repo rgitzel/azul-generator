@@ -1,6 +1,11 @@
 ---
 
 deployments:
+#  - modules:
+#      - path: hosted_zone
+#    regions:
+#      - us-east-1
+#
   - modules:
       - path: generator
       - path: domain
@@ -10,6 +15,7 @@ deployments:
       - us-west-2
     env_vars:
       '*':
+        domain: lab.dropd.com
         # this is truly global, across all deployments to all accounts
         deployment_name: azul-generator
         # this is specific to the account... need somewhere else to put this
