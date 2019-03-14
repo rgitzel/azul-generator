@@ -1,11 +1,11 @@
 
-service: ${env:deployment_name}-${env:runway_environment}-${opt:stage}-generator
+service: ${env:deployment_name}-${env:runway_environment}-generator
 
 provider:
   name: aws
   endpointType: REGIONAL
   runtime: nodejs8.10
-  stage: ${opt:stage}
+  stage: ${env:runway_environment}
   apiName: ${self:service}
   region: ${opt:region}
   stackName: ${self:service}
@@ -24,12 +24,6 @@ custom:
   apigwBinary:
     types:
       - '*/*'
-#  customDomain:
-#    domainName: '${opt:stage}.lab.dropd.com'
-#    basePath: ''
-#    stage: ${opt:stage}
-#    createRoute53Record: true
-#    certificateName: '${opt:stage}.lab.dropd.com'
   webpack:
     includeModules: true
 
