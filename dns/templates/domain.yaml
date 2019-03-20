@@ -5,10 +5,10 @@ Description: 'add a domain to a Serverless app'
 
 Parameters:
   ApiGatewayRestApiId:
-    Description: 'where we can put temporary files in the bucket'
+    Description: 'ID of the API Gateway we are pointing the domain at'
     Type: String
   ApiGatewayStage:
-    Description: 'where we can put temporary files in the bucket'
+    Description: 'which API Gateway stage to use'
     Type: String
   Hostname:
     Description: 'the full hostname we want to be available on the Internet'

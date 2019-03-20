@@ -1,23 +1,68 @@
 ---
 
-deployments:
-#  - modules:
-#      - path: hosted_zone
-#    regions:
-#      - us-east-1
+name: azul-generator
 #
+#globals:
+#  owner: rodney.gitzel@gmail.com
+#
+#accounts:
+#  default:
+#    config:
+#      app_domain: foo.dropd.com
+#      serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+#    roles: #?
+#
+#  rgitzel-lab:
+#    id: 346457567568
+#    config:
+#      app_domain: lab.dropd.com
+#      serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+#
+
+deployments:
+
+  - modules:
+      - path: hosted_zone
+    regions:
+      - us-east-1
+    env_vars:
+      '*':
+        app_domain: foo.dropd.com
+    environments:
+      global-us-east-1: true
+      global: true
+      # in this case, those two are equivalent
+
   - modules:
       - path: generator
-      - path: domain
+        environments:
+          dev:
+            foo: bar
+#        config:
+#          namespace: ${runway.name}-${runway.deployment_environment_name}
+#      - path: generator
+#        environments:
+#          dev:
+#            foo: baz
+#        config:
+#          namespace: ${runway.name}-${runway.deployment_environment_name}
+      - dns.tf
+#        config:
+#          domain: ${runway.environment_name}.${runway.config.domain}
     regions:
       - us-east-1
       - us-west-1
       - us-west-2
+    environments:
+      # what if these became mandatory? then each module *could* provide fields... we would know if there's only one...
+      #  and do people put config here?
+      dev-us-west-1: true
+      qa-us-west-2: true
+      prod-us-east-1: true
     env_vars:
       '*':
-        # this is truly global, across all deployments to all accounts
-        deployment_name: azul-generator
-
         # these are specific to the account... need somewhere else to put them
-        domain: lab.dropd.com
+        app_domain: lab.dropd.com
         serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+
+
