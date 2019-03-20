@@ -3,34 +3,39 @@ provider "aws" {
     region = "us-west-1"
 }
 
-
-variable "host" {
+# standard Runway values
+variable "runway_environment_name" {
+    type = "string"
+}
+variable "runway_project_name" {
     type = "string"
 }
 
-variable "domain" {
+# from runway.yml `env_vars`
+variable "app_domain" {
     type = "string"
 }
 
-variable "domain_zone_id" {
-    type = "string"
-}
 
+# from `.tfvars`
 variable "certificate_arn" {
     type = "string"
 }
 
-variable "api_gateway_rest_api_id" {
+# from...??
+variable "domain_zone_id" {
     type = "string"
 }
 
-variable "api_gateway_stage_name" {
-    type = "string"
+
+data "aws_cloudformation_stack" "app" {
+    name = "${var.runway_project_name}-${var.runway_environment_name}-generator"
 }
+
 
 
 resource "aws_api_gateway_domain_name" "domain_name" {
-  domain_name              = "${var.host}.${var.domain}"
+  domain_name              = "${var.runway_environment_name}.${var.app_domain}"
   regional_certificate_arn = "${var.certificate_arn}"
 
   endpoint_configuration {
@@ -39,13 +44,13 @@ resource "aws_api_gateway_domain_name" "domain_name" {
 }
 
 resource "aws_api_gateway_base_path_mapping" "mapping" {
-  api_id      = "${var.api_gateway_rest_api_id}"
-  stage_name  = "${var.api_gateway_stage_name}"
+  api_id      = "${data.aws_cloudformation_stack.app.outputs["RestApiId"]}"
+  stage_name  = "${var.runway_environment_name}"
   domain_name = "${aws_api_gateway_domain_name.domain_name.domain_name}"
 }
 
 resource "aws_route53_record" "record" {
-  name    = "${var.host}.${var.domain}"
+  name    = "${var.runway_environment_name}.${var.app_domain}"
   zone_id = "${var.domain_zone_id}"
   type    = "A"
   alias {
