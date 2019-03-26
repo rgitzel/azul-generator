@@ -1,16 +1,16 @@
 
-service: ${env:runway_project_name}-${env:runway_environment_name}-generator
+service: azul-generator-dev-generator
 
 provider:
   name: aws
   endpointType: REGIONAL
   runtime: nodejs8.10
-  stage: ${env:runway_environment_name}
+  stage: dev
   apiName: ${self:service}
   region: ${opt:region}
   stackName: ${self:service}
   deploymentBucket:
-    name: ${env:serverless_deployment_bucket_prefix}-${opt:region}
+    name: serverless-deployment-onica-rodney-${opt:region}
 
 plugins:
   # allows us to return a binary file
@@ -36,6 +36,15 @@ functions:
           method: get
     role: BasicRole
 
+  AzulBoard2:
+    handler: src/lambda.handler
+    events:
+      - http:
+          path: board-serverless.pdf
+          method: get
+    role: BasicRole
+    environment:
+      foo: !GetAtt AzulBoardLambdaFunction.Arn
 
 resources:
   Resources:

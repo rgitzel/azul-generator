@@ -1,8 +1,4 @@
 
-provider "aws" {
-    region = "us-west-1"
-}
-
 # standard Runway values
 variable "runway_environment_name" {
     type = "string"
@@ -22,16 +18,21 @@ variable "certificate_arn" {
     type = "string"
 }
 
-# from...??
-variable "domain_zone_id" {
-    type = "string"
-}
+
+// ======================
 
 
 data "aws_cloudformation_stack" "app" {
     name = "${var.runway_project_name}-${var.runway_environment_name}-generator"
 }
 
+data "aws_route53_zone" "hosted_zone" {
+  name         = "${var.app_domain}."
+  private_zone = false
+}
+
+
+// ======================
 
 
 resource "aws_api_gateway_domain_name" "domain_name" {
@@ -51,7 +52,7 @@ resource "aws_api_gateway_base_path_mapping" "mapping" {
 
 resource "aws_route53_record" "record" {
   name    = "${var.runway_environment_name}.${var.app_domain}"
-  zone_id = "${var.domain_zone_id}"
+  zone_id = "${data.aws_route53_zone.hosted_zone.zone_id}"
   type    = "A"
   alias {
     name                   = "${aws_api_gateway_domain_name.domain_name.regional_domain_name}"
