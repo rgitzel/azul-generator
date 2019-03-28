@@ -1,5 +1,5 @@
 
-namespace: ${runway_project}-${runway_environment}
+namespace: ${runway_project_name}-${runway_environment_name}
 
 stacker_bucket: ''
 
@@ -8,4 +8,4 @@ stacks:
   hosted-zone:
     template_path: templates/hosted_zone.yaml
     variables:
-      DomainName: '${envvar domain}'
+      DomainName: '${app_domain}'
