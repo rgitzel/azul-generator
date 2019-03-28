@@ -42,7 +42,7 @@ deployments:
             staticsite_acmcert_arn: arn:aws:acm:us-east-1:625907101871:certificate/e4204b2d-d6ef-4823-82d3-93abad06de9f
           prod:
             namespace: azul-generator-prod
-            staticsite_aliases: prod.azul.dropd.com
+            staticsite_aliases: prod.azul.dropd.com, azul.dropd.com
             staticsite_acmcert_arn: arn:aws:acm:us-east-1:625907101871:certificate/e4204b2d-d6ef-4823-82d3-93abad06de9f
     regions:
       - us-east-1

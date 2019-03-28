@@ -10,7 +10,7 @@ provider:
   region: ${opt:region}
   stackName: ${self:service}
   deploymentBucket:
-    name: serverless-deployment-onica-rodney-${opt:region}
+    name: serverless-deployment-rgitzel-${opt:region}
 
 plugins:
   # allows us to return a binary file
