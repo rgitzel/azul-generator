@@ -27,23 +27,23 @@ deployments:
       - us-east-1
     environments:
       '*':
-        app_domain: lab.dropd.com
+        app_domain: azul.dropd.com
 
   - modules:
       - path: site.sts
         environments:
           dev:
             namespace: azul-generator-dev
-            staticsite_aliases: dev.lab.dropd.com
-            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/c9dc285e-cb04-44b8-9924-801a9576c7a3
+            staticsite_aliases: dev.azul.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:625907101871:certificate/e4204b2d-d6ef-4823-82d3-93abad06de9f
           qa:
             namespace: azul-generator-qa
-            staticsite_aliases: qa.lab.dropd.com
-            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/150a48d7-398e-4280-91c2-85141422e3f5
+            staticsite_aliases: qa.azul.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:625907101871:certificate/e4204b2d-d6ef-4823-82d3-93abad06de9f
           prod:
             namespace: azul-generator-prod
-            staticsite_aliases: prod.lab.dropd.com
-            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/7789ee88-fdb1-45e5-952e-55aeabd3b7db
+            staticsite_aliases: prod.azul.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:625907101871:certificate/e4204b2d-d6ef-4823-82d3-93abad06de9f
     regions:
       - us-east-1
       - us-west-1
@@ -56,11 +56,11 @@ deployments:
           qa: true
           prod: true
           '*':
-            serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+            serverless_deployment_bucket_prefix: serverless-deployment-rgitzel
       - path: dns.tf
         environments:
           '*':
-            app_domain: lab.dropd.com
+            app_domain: azul.dropd.com
     regions:
       - us-east-1
       - us-west-1
