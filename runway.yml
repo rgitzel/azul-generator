@@ -34,6 +34,8 @@ deployments:
         environments:
           dev:
             namespace: azul-generator-dev
+            staticsite_aliases: dev.lab.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/c9dc285e-cb04-44b8-9924-801a9576c7a3
           qa:
             namespace: azul-generator-qa
           prod:
@@ -50,13 +52,12 @@ deployments:
           qa: true
           prod: true
           '*':
-            foo: bar
+            serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
       - path: dns.tf
+        environments:
+          '*':
+            app_domain: lab.dropd.com
     regions:
       - us-east-1
       - us-west-1
       - us-west-2
-    environments:
-      '*':
-        app_domain: lab.dropd.com
-        serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney

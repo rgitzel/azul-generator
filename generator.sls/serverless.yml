@@ -34,8 +34,6 @@ functions:
           method: get
 
 resources:
-  Resources:
-
   Outputs:
     RestApiId:
       Description: 'the short ID of the API Gateway API'
