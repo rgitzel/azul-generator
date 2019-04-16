@@ -1,17 +1,67 @@
 ---
 
+name: azul-generator
+#
+#globals:
+#  owner: rodney.gitzel@gmail.com
+#
+#accounts:
+#  default:
+#    config:
+#      app_domain: foo.dropd.com
+#      serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+#    roles: #?
+#
+#  rgitzel-lab:
+#    id: 346457567568
+#    config:
+#      app_domain: lab.dropd.com
+#      serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+#
+
 deployments:
+
   - modules:
-      - path: generator
+      - path: hosted_zone.cfn
+    regions:
+      - us-east-1
+    environments:
+      '*':
+        app_domain: lab.dropd.com
+
+  - modules:
+      - path: site.sts
         environments:
-          dev: false
+          dev:
+            namespace: azul-generator-dev
+            staticsite_aliases: dev.lab.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/c9dc285e-cb04-44b8-9924-801a9576c7a3
+          qa:
+            namespace: azul-generator-qa
+            staticsite_aliases: qa.lab.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/150a48d7-398e-4280-91c2-85141422e3f5
+          prod:
+            namespace: azul-generator-prod
+            staticsite_aliases: prod.lab.dropd.com
+            staticsite_acmcert_arn: arn:aws:acm:us-east-1:605952593874:certificate/7789ee88-fdb1-45e5-952e-55aeabd3b7db
     regions:
       - us-east-1
       - us-west-1
       - us-west-2
-    env_vars:
-      '*':
-        # this is truly global, across all deployments to all accounts
-        deployment_name: azul-generator
-        # this is specific to the account... need somewhere else to put this
-        serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+
+  - modules:
+      - path: generator.sls
+        environments:
+          dev: true
+          qa: true
+          prod: true
+          '*':
+            serverless_deployment_bucket_prefix: serverless-deployment-onica-rodney
+      - path: dns.tf
+        environments:
+          '*':
+            app_domain: lab.dropd.com
+    regions:
+      - us-east-1
+      - us-west-1
+      - us-west-2

@@ -1,0 +1,40 @@
+
+service: ${env:runway_project_name}-${env:runway_environment_name}-generator
+
+provider:
+  name: aws
+  endpointType: REGIONAL
+  runtime: nodejs8.10
+  stage: ${env:runway_environment_name}
+  apiName: ${self:service}
+  region: ${opt:region}
+  stackName: ${self:service}
+  deploymentBucket:
+    name: serverless-deployment-onica-rodney-${opt:region}
+
+plugins:
+  # allows us to return a binary file
+  - serverless-apigw-binary
+  # automatically builds and packages Typescript
+  - serverless-webpack
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+  webpack:
+    includeModules: true
+
+functions:
+  AzulBoard:
+    handler: src/lambda.handler
+    events:
+      - http:
+          path: board.pdf
+          method: get
+
+resources:
+  Outputs:
+    RestApiId:
+      Description: 'the short ID of the API Gateway API'
+      Value: !Ref ApiGatewayRestApi

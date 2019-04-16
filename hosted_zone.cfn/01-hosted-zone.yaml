@@ -1,0 +1,11 @@
+
+namespace: ${runway_project}-${runway_environment}
+
+stacker_bucket: ''
+
+stacks:
+
+  hosted-zone:
+    template_path: templates/hosted_zone.yaml
+    variables:
+      DomainName: '${envvar domain}'
