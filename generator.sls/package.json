@@ -27,7 +27,7 @@
   "dependencies": {
     "@types/bufferstream": "^0.6.35",
     "@types/pdfkit": "^0.7.36",
-    "aws-lambda": "^0.1.2",
+    "aws-lambda": "^1.0.5",
     "bufferstream": "^0.6.2",
     "pdfkit": "^0.8.3"
   },
